@@ -4,10 +4,11 @@ import styles from '../styles/Home.module.css'
 import Header from '../components/Header';
 import PostPreview from '../components/PostPreview';
 import { useState, useEffect } from 'react';
+import { dummyPosts } from '../dummyData';
 
 export default function Home() {
 
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState(dummyPosts);
 
   useEffect(() => {
     //Fetch posts here.
@@ -15,11 +16,9 @@ export default function Home() {
 
   return (
     <div className='flex flex-col h-screen'>
-      <Header />
-      <PostPreview />
-      <PostPreview />
-      <PostPreview />
-      <PostPreview />
+      {posts.map(post => {
+        return <PostPreview post={post} />
+      })}
     </div>
   )
 }
