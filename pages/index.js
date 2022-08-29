@@ -1,7 +1,3 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Header from '../components/Header';
 import PostPreview from '../components/PostPreview';
 import { useState, useEffect } from 'react';
 import { dummyPosts } from '../dummyData';
@@ -16,7 +12,7 @@ export default function Home() {
 
   return (
     <div className='flex flex-col h-screen'>
-      {posts.map(post => {
+      {posts.map((post, index) => {
         return <PostPreview post={post} />
       })}
     </div>
