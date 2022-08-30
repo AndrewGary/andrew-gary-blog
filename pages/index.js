@@ -7,7 +7,7 @@ export default function Home() {
   const [posts, setPosts] = useState(dummyPosts);
 
   useEffect(() => {
-    //Fetch posts here.
+    console.log('mongo_uri: ', process.env.MONGO_URI);
   }, [])
 
   return (
