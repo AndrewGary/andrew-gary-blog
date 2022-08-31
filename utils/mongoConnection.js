@@ -2,10 +2,8 @@ import { MongoClient } from 'mongodb';
 
 console.log('mongodb: ', process.env.HELP)
 
-const MONGODB_URI = process.env.MONGODB_URI;
-const MONGODB_DB = process.env.DB_NAME;
-
-console.log('testing: ', MONGODB_URI);
+const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI;
+const MONGODB_DB = process.env.NEXT_PUBLIC_DB_NAME;
 
 // check the MongoDB URI
 if (!MONGODB_URI) {
@@ -24,6 +22,8 @@ export async function connectToDatabase() {
     // check the cached.
     if (cachedClient && cachedDb) {
         // load from cache
+
+        console.log('cachedClient: ', cachedClient);
         return {
             client: cachedClient,
             db: cachedDb,

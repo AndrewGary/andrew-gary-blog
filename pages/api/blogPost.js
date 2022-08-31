@@ -2,8 +2,10 @@ const { connectToDatabase } = require('../../utils/mongoConnection');
 // const ObjectId = require('mongodb').ObjectId;
 
 export default async function handler(req, res) {
-    console.log('req');
     
+    const connection = await connectToDatabase();
+
+    const db = connection.db;
     // switch the methods
     switch (req.method) {
         case 'GET': {
@@ -12,7 +14,13 @@ export default async function handler(req, res) {
         }
 
         case 'POST': {
-            return addPost(req, res);
+            console.log(req.body);
+
+            const collection = db.collection('blogPosts')
+
+            const result = await collection.insertOne(req.body);
+
+            return res.status(201).json(result);
         }
 
         case 'PUT': {
