@@ -1,10 +1,17 @@
 import React from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const PostPreview = ({ post }) => {
+
+    const router = useRouter();
+
+    const handleclick = e => {
+        router.push(`/posts/${post._id}`)
+    }
   return (
     
-    <div className='flex border border-green-500 w-full h-2/5 '>
+    <div onClick={handleclick} className='flex border border-green-500 w-full h-2/5 '>
         <div className='flex flex-col w-2/3 border border-red-500 py-4'>
             <div className='flex flex-col justify-center items-center h-2/5'>
                 <span className='my-2 text-3xl underline'>{post.postName}</span>

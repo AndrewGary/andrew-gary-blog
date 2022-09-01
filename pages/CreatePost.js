@@ -5,7 +5,7 @@ const initailVallues = {
 	postName: "",
 	postSubtitle: "",
 	postPreviewDescription: "",
-	post: "",
+	postContent: "",
 	postThumbnail: "",
 };
 
@@ -36,7 +36,7 @@ const CreatePost = () => {
 				postName: formValues.postName,
 				postSubtitle: formValues.postSubtitle,
 				postPreviewDescription: formValues.postPreviewDescription,
-				post: idk[0].textContent,
+				postContent: idk[0].textContent,
 			}),
 		};
 
@@ -92,9 +92,9 @@ const CreatePost = () => {
 							className="border border-black w-full"
 						/>
 					</div>
-					<label for="post">Post</label>
+					<label for="postContent">Post</label>
 					<div
-						name="post"
+						name="postContent"
 						onChange={handlePostChange}
 						className="px-3 w-full h-max border border-black"
 						contentEditable="true"

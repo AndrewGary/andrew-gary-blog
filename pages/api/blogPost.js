@@ -6,11 +6,28 @@ export default async function handler(req, res) {
     const connection = await connectToDatabase();
 
     const db = connection.db;
+
+    console.log('hello world');
     // switch the methods
     switch (req.method) {
         case 'GET': {
+
+            try{
+                console.log('inside of GET')
+
+            const collection = db.collection('blogPosts');
+
+            const idk = await collection.find();
+
+            console.log('idk: ', idk);
+            const allPosts = await db.collection('blogPosts').find({}).toArray();
+
+            return res.status(200).json(allPosts);
+            }catch(error){
+                res.status(400).json(error);
+            }
             // return getPosts(req, res);
-           return res.status(200).json({ hello: 'world'})
+        //    return res.status(200).json({ hello: 'world'})
         }
 
         case 'POST': {
@@ -28,7 +45,11 @@ export default async function handler(req, res) {
         }
 
         case 'DELETE': {
-            return deletePost(req, res);
+            try{
+                
+            }catch(error){
+                return res.status(400).json(error);
+            }
         }
     }
 }
