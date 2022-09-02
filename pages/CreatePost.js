@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import date from 'date-and-time';
 
 const initailVallues = {
 	postName: "",
@@ -28,6 +29,8 @@ const CreatePost = () => {
 
 		const idk = document.getElementsByName("post");
 
+		const now = new Date();
+
 		const requestOptions = {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -36,6 +39,8 @@ const CreatePost = () => {
 				postSubtitle: formValues.postSubtitle,
 				postPreviewDescription: formValues.postPreviewDescription,
 				postContent: idk[0].textContent,
+				date: date.format(now, 'MM/DD/YYYY'),
+				time: date.format(now, 'HH:mm:ss:A')
 			}),
 		};
 

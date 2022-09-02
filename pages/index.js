@@ -22,6 +22,8 @@ export default function Home({yeahhh}) {
   }, [])
 
   const populatePosts = () => {
+
+    // return new Promise(function (resolve, reject)
     
     for(let i = 0; i < 10; i++){
       const blah = {
@@ -36,11 +38,13 @@ export default function Home({yeahhh}) {
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(blah)
       }
-
-      fetch('/api/blogPost', requestOptions)
+      setTimeout(() => {
+        fetch('/api/blogPost', requestOptions)
       .then(resp => {
         console.log(resp);
-      })
+      })  
+      }, 500)
+      
     }
   }
 

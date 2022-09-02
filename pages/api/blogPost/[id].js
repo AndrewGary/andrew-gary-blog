@@ -2,28 +2,30 @@ const { connectToDatabase } = require('../../../utils/mongoConnection')
 const {ObjectId} = require('mongodb');
 
 export default async function handler(req, res){
-
     const connection = await connectToDatabase();
 
     const db = connection.db;
 
-    try{
-        console.log('req.query: ', req.query);
+    switch(req.method){
+        case 'GET':
+            try{
+                const results = await db.collection('blogPosts').findOne({ _id : ObjectId(req.query.id)})
+                
+                return res.status(200).json(results)
+            }catch(error){
+                return res.status(500).json(error.message);
+            }
 
-        const tessst = req.query.id
+        case 'DELETE':
+            try{
+                console.log('inside of DELETE in you know');
+                const returnValue = db.collection('blogPosts').deleteOne({_id: ObjectId(req.query.id)})
+                console.log('rt value: ', returnValue);
 
-        console.log('tessst: ', tessst);
-
-        console.log(typeof req.query.id);
-        console.log(typeof tessst);
-
-        const results = await db.collection('blogPosts').findOne({ _id : ObjectId(req.query.id)})
-
-        console.log('results: ', results);
-
-        return res.status(200).json(results)
-    }catch(error){
-
-        return res.status(500).json(error.message);
-    }
+                return res.status(200).json(returnValue);
+            }catch(error){
+                console.log('inside of errorrrr');
+                return res.status(500).json(error.message);
+            }
+        }
 }
