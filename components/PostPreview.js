@@ -10,7 +10,7 @@ const PostPreview = ({ post }) => {
         router.push(`/posts/${post._id}`)
     }
   return (
-    
+        
     <div onClick={handleclick} className='flex border border-green-500 w-full h-2/5 '>
         <div className='flex flex-col w-2/3 border border-red-500 py-4'>
             <div className='flex flex-col justify-center items-center h-2/5'>
@@ -19,7 +19,7 @@ const PostPreview = ({ post }) => {
             </div>
 
             <div className='flex items-center px-10 h-3/5'>
-                {post.postSmallDescription}
+                {post.postPreviewDescription}
             </div>
             <div className='w-full flex justify-center items-center'>
                 <a className='w-1/6 flex justify-center items-center border border-gray-300 hover:border-gray-500 bg-gray-200 hover:bg-gray-400 rounded-xl'>

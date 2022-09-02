@@ -1,27 +1,45 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-const Post = props => {
+export const getStaticPaths = async () => {
+  const res = await fetch('http://localhost:3000/api/blogPost');
+  const data = await res.json();
 
-  const { post } = props;
+  const paths = data.map(check => {
+    return {
+      params: { id: check._id.toString()}
+    }
+  })
 
-  // postName: "",
-	// postSubtitle: "",
-	// postPreviewDescription: "",
-	// post: "",
-	// postThumbnail: "",
+  return {
+    paths,
+    fallback: false
+  }
+}
 
-  const { postName, postSubtitle, postPreviewDescription, postContent, postThumbnail } = post;
+export const getStaticProps = async (context) => {
+  const id = context.params.id;
+  const res = await fetch(`http://localhost:3000/api/blogPost/${id}`)
+  const data = await res.json();
 
-  const router = useRouter();
+  return {
+    props: { post: data }
+  }
+}
 
-  const { id } = router.query;
+const Post = ({post}) => { 
+
+  // const { postName, postSubtitle, postPreviewDescription, postContent, postThumbnail } = post;
+
+  console.log('post: ', post);
+
   return (
     <div className='flex justify-center items-center w-full h-screen border border-red-500'>
       <div className='w-4/5 h-full border border-green-500 flex flex-col'>
         <div className='flex w-full h-2/5 border border-purple-500'>
           <div className='flex flex-col w-2/3 h-full border border-red-500 items-center justify-evenly'>
-            <h1>{post.postName}</h1>
+            {/* <h1>{postName}</h1> */}
+            {post.postName}
           </div>
 
           <div className='flex justify-center items-center w-1/3 h-full'>
