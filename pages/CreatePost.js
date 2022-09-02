@@ -27,7 +27,7 @@ const CreatePost = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		const idk = document.getElementsByName("post");
+		const idk = document.getElementsByName("postContent");
 
 		const now = new Date();
 
