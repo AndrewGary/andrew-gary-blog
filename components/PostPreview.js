@@ -16,7 +16,7 @@ const PostPreview = ({ post }) => {
         }
 
         const res = await fetch(`http://localhost:3000/api/blogPost/${post._id}`, requestOptions)
-        console.log(res);
+        router.push('/')
     }
   return (
         

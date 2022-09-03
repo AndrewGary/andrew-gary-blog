@@ -10,9 +10,7 @@ const initailVallues = {
 	postPreviewDescription: "",
 	postContent: "",
 	postThumbnail: "",
-	projectName: "",
-	githubLink: "",
-	deployedProject: "",
+	project: null
 };
 
 const CreatePost = () => {
@@ -20,10 +18,21 @@ const CreatePost = () => {
 	const [pageMessage, setPageMessage] = useState("");
 
 	const handleChange = (e) => {
-		setFormValues({
-			...formValues,
-			[e.target.name]: e.target.value,
-		});
+
+		if(e.target.name === 'project'){
+
+			const indexValue = parseInt(e.target.value); 
+
+			setFormValues({
+				...formValues,
+				project: {...currentProjects[indexValue]}
+			})
+		}else{
+			setFormValues({
+				...formValues,
+				[e.target.name]: e.target.value,
+			});
+		}
 	};
 
 	const handlePostChange = (e) => {
@@ -47,11 +56,7 @@ const CreatePost = () => {
 				postContent: idk[0].textContent,
 				date: date.format(now, 'MM/DD/YYYY'),
 				time: date.format(now, 'HH:mm:ss:A'),
-				project: {
-					name: formValues.projectName,
-					githubLink: formValues.githubLink,
-					deployedProject: formValues.deployedProject
-				}
+				project: {...formValues.project}
 			}),
 		};
 
@@ -82,8 +87,8 @@ const CreatePost = () => {
 						</label>
 						<select required id="project" name="project" className="text-gray-500 border border-gray-400 w-1/2" onChange={handleChange}>
 							<option>--Select Poject--</option>
-							{currentProjects.map(project => {
-							return <option value={`${project.name}`}>{project.name}</option>
+							{currentProjects.map((project, index) => {
+							return <option key={index} value={index}>{project.name}</option>
 							})}
 						</select>
 					</div>
