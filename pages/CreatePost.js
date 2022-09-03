@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import date from 'date-and-time';
+import { currentProjects } from "../utils/projects";
+
+
 
 const initailVallues = {
 	postName: "",
@@ -7,6 +10,9 @@ const initailVallues = {
 	postPreviewDescription: "",
 	postContent: "",
 	postThumbnail: "",
+	projectName: "",
+	githubLink: "",
+	deployedProject: "",
 };
 
 const CreatePost = () => {
@@ -40,7 +46,12 @@ const CreatePost = () => {
 				postPreviewDescription: formValues.postPreviewDescription,
 				postContent: idk[0].textContent,
 				date: date.format(now, 'MM/DD/YYYY'),
-				time: date.format(now, 'HH:mm:ss:A')
+				time: date.format(now, 'HH:mm:ss:A'),
+				project: {
+					name: formValues.projectName,
+					githubLink: formValues.githubLink,
+					deployedProject: formValues.deployedProject
+				}
 			}),
 		};
 
@@ -64,6 +75,19 @@ const CreatePost = () => {
 					New Post
 				</h1>
 				<form className=" w-1/2" onSubmit={handleSubmit}>
+
+					<div className="flex flex-col">
+						<label htmlFor="project" className=" text-gray-500">
+							Select which project this Post is about.
+						</label>
+						<select required id="project" name="project" className="text-gray-500 border border-gray-400 w-1/2" onChange={handleChange}>
+							<option>--Select Poject--</option>
+							{currentProjects.map(project => {
+							return <option value={`${project.name}`}>{project.name}</option>
+							})}
+						</select>
+					</div>
+
 					<div className="flex flex-col">
 						<label for="postName">Post Title</label>
 						<input
