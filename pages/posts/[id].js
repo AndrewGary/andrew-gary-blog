@@ -1,5 +1,7 @@
 import React from 'react'
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 export const getStaticPaths = async () => {
   const res = await fetch('http://localhost:3000/api/blogPost');
@@ -29,6 +31,9 @@ export const getStaticProps = async (context) => {
 
 const Post = ({post}) => { 
 
+  const { data: session } = useSession();
+  const router = useRouter();
+
   const { postName, postSubtitle, postContent, postThumbnail, date, time, project } = post;
 
   console.log('post: ', post);
@@ -43,7 +48,11 @@ const Post = ({post}) => {
             <div className='w-full h-2/3 flex flex-col items-center border border-purple-500'>
               <h1 className='text-7xl my-3 border-b-2 border-slate-200'>{postName}</h1>
               <h2 className='text-4xl my-3'>{postSubtitle}</h2>
-              
+              {session && 
+                <button onClick={() => {
+                  router.push(`/posts/edit/${post._id}`)
+                }} className='border border-black rounded-md'>Edit post</button>
+              }
             </div>
             
             <div className='flex flex-col w-full h-1/3 border border-pink-500 justify-evenly items-center pb-2'>
