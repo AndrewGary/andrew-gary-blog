@@ -27,5 +27,12 @@ export default async function handler(req, res){
                 console.log('inside of errorrrr');
                 return res.status(500).json(error.message);
             }
+
+        case 'PUT':
+            try{
+                console.log('req.body: ', req.body)
+            }catch(error){
+                return res.status(500).json(error.message);
+            }
         }
 }

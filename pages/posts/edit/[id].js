@@ -14,13 +14,16 @@ export async function getServerSideProps(context){
 const Component = ({ post }) => {
 
     const [ postBeingEdited, setPostBeingEdited ] = useState(post);
+    const [ sectionsThatChanged, setSectionsThatChanged ] = useState([]);
 
     const handleSubmit = e => {
         e.preventDefault();
     }
 
     const handleChange = e => {
-        console.log('input changed');
+        if(!sectionsThatChanged.includes(e.target.name)){
+            setSectionsThatChanged([ ...sectionsThatChanged, e.target.name])
+        }
     }
 
     const handlePostChange = e => {
