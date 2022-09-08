@@ -18,20 +18,15 @@ export default async function handler(req, res){
 
         case 'DELETE':
             try{
-                console.log('inside of DELETE in you know');
                 const returnValue = db.collection('blogPosts').deleteOne({_id: ObjectId(req.query.id)})
-                console.log('rt value: ', returnValue);
 
                 return res.status(200).json(returnValue);
             }catch(error){
-                console.log('inside of errorrrr');
                 return res.status(500).json(error.message);
             }
 
         case 'PUT':
             try{
-                console.log('req.sq: ', req.sq);
-                console.log('req.body: ', req.body)
                 const searchTerm = req.body.searchQuery;
 
                 delete req.body.searchQuery;

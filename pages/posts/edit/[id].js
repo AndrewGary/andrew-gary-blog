@@ -27,16 +27,11 @@ const Component = ({ post }) => {
 
         const postChanges = document.getElementsByName('postContent');
 
-		console.log('typeof post.postName: ', typeof post.postName)
-		console.log('post.postName: ', post.postName[0])
         const upDatedPost = {
             ...postBeingEdited,
             postContent: postChanges[0].textContent,
 			searchQuery: post.postName[0]
         }
-
-		
-        console.log('upDatedPost: ', upDatedPost);
 		
 
         const requestOptions = {
@@ -47,9 +42,6 @@ const Component = ({ post }) => {
           fetch(`http://localhost:3000/api/blogPost/${post._id}`, requestOptions)
 		  .then(resp => {
 			if(resp.status === 200){
-				console.log('resp: ', resp);
-				console.log('resp.status: ', resp.status);
-				console.log('about to set pageMessage');
 				setPageMessage('Post Updated')
 			}
 		  })
@@ -67,15 +59,6 @@ const Component = ({ post }) => {
             [e.target.name]: e.target.value
         })
     }
-
-    const handlePostChange = e => {
-        console.log('postContent has changed');
-    }
-
-    useEffect(() => {
-        console.log('inside edit useEffect');
-        console.log('edit post: ', post);
-    }, [])
 
     return (
         <div className="flex justify-center items-center w-full h-screen">
@@ -136,7 +119,6 @@ const Component = ({ post }) => {
                     <label for="postContent">Post</label>
 					<div
 						name="postContent"
-						onChange={handlePostChange}
 						className="px-3 w-full h-max border border-black"
 						contentEditable="true"
                         suppressContentEditableWarning={true}

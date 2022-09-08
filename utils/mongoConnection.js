@@ -1,7 +1,5 @@
 import { MongoClient } from 'mongodb';
 
-console.log('mongodb: ', process.env.HELP)
-
 const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI;
 const MONGODB_DB = process.env.NEXT_PUBLIC_DB_NAME;
 
@@ -19,13 +17,10 @@ let cachedClient = null;
 let cachedDb = null;
 
 export async function connectToDatabase() {
-    console.log('inside of connectToDatabase()');
     // check the cached.
     if (cachedClient && cachedDb) {
-        console.log('inseide of cachedClient && cachedDb if')
         // load from cache
 
-        console.log('cachedClient: ', cachedClient);
         return {
             client: cachedClient,
             db: cachedDb,

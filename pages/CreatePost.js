@@ -35,10 +35,6 @@ const CreatePost = () => {
 		}
 	};
 
-	const handlePostChange = (e) => {
-		console.log(e);
-	};
-
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
@@ -128,7 +124,6 @@ const CreatePost = () => {
 					<label for="postContent">Post</label>
 					<div
 						name="postContent"
-						onChange={handlePostChange}
 						className="px-3 w-full h-max border border-black"
 						contentEditable="true"
 					></div>

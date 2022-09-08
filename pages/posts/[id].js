@@ -36,8 +36,6 @@ const Post = ({post}) => {
 
   const { postName, postSubtitle, postContent, postThumbnail, date, time, project } = post;
 
-  console.log('post: ', post);
-
   return (
     <div className='flex justify-center items-center w-full h-screen border border-red-500'>
       <div className='w-4/5 h-full border border-green-500 flex flex-col'>

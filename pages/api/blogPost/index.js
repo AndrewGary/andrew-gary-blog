@@ -1,5 +1,4 @@
 const { connectToDatabase } = require('../../../utils/mongoConnection');
-// const ObjectId = require('mongodb').ObjectId;
 
 export default async function handler(req, res) {
     
@@ -7,7 +6,6 @@ export default async function handler(req, res) {
 
     const db = connection.db;
 
-    // console.log('hello world');
     // switch the methods
     switch (req.method) {
         case 'GET': {
