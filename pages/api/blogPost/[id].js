@@ -30,8 +30,16 @@ export default async function handler(req, res){
 
         case 'PUT':
             try{
+                console.log('req.sq: ', req.sq);
                 console.log('req.body: ', req.body)
-                res.status(200).json({ message: 'success'})
+                const searchTerm = req.body.searchQuery;
+
+                delete req.body.searchQuery;
+                delete req.body._id;
+
+                const returnValue = await db.collection('blogPosts').replaceOne({ 'postName': searchTerm}, req.body);
+    
+                res.status(200).json(returnValue)
             }catch(error){
                 return res.status(500).json(error.message);
             }

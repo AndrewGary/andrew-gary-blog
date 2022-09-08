@@ -13,6 +13,8 @@ export async function getServerSideProps(context){
 
 const Component = ({ post }) => {
 
+	const [pageMessage, setPageMessage] = useState('');
+
     const [ postBeingEdited, setPostBeingEdited ] = useState(post);
     const [ sectionsThatChanged, setSectionsThatChanged ] = useState([]);
 
@@ -20,22 +22,37 @@ const Component = ({ post }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
+	
+
 
         const postChanges = document.getElementsByName('postContent');
 
+		console.log('typeof post.postName: ', typeof post.postName)
+		console.log('post.postName: ', post.postName[0])
         const upDatedPost = {
             ...postBeingEdited,
-            postContent: postChanges[0].textContent
+            postContent: postChanges[0].textContent,
+			searchQuery: post.postName[0]
         }
 
+		
         console.log('upDatedPost: ', upDatedPost);
+		
 
         const requestOptions = {
             method: 'PUT',
             headers: { "Content-Type": "application/json"},
-            body: JSON.stringify(upDatedPost)
+            body: JSON.stringify(upDatedPost),
           }
           fetch(`http://localhost:3000/api/blogPost/${post._id}`, requestOptions)
+		  .then(resp => {
+			if(resp.status === 200){
+				console.log('resp: ', resp);
+				console.log('resp.status: ', resp.status);
+				console.log('about to set pageMessage');
+				setPageMessage('Post Updated')
+			}
+		  })
 
         e.preventDefault();
     }
@@ -47,7 +64,7 @@ const Component = ({ post }) => {
 
         setPostBeingEdited({
             ...postBeingEdited,
-            [e.target.name]: [e.target.value]
+            [e.target.name]: e.target.value
         })
     }
 
@@ -66,6 +83,9 @@ const Component = ({ post }) => {
                 <h1 className="flex justify-center border-b border-slate-300 w-5/6">
 					Edit Post
 				</h1>
+				<h2 className=' text-green-500'>
+					{pageMessage}
+				</h2>
 
                 <form className=" w-1/2" onSubmit={handleSubmit}>
                     <div className="flex flex-col">
