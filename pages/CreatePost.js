@@ -82,7 +82,7 @@ const CreatePost = () => {
 							Select which project this Post is about.
 						</label>
 						<select required id="project" name="project" className="text-gray-500 border border-gray-400 w-1/2" onChange={handleChange}>
-							<option>--Select Poject--</option>
+							<option value=''>--Select Poject--</option>
 							{currentProjects.map((project, index) => {
 							return <option key={index} value={index}>{project.name}</option>
 							})}
@@ -92,6 +92,7 @@ const CreatePost = () => {
 					<div className="flex flex-col">
 						<label for="postName">Post Title</label>
 						<input
+							required
 							type="text"
 							onChange={handleChange}
 							name="postName"
@@ -103,6 +104,7 @@ const CreatePost = () => {
 					<div className="flex flex-col">
 						<label for="postSubtitle">Post Subtitle</label>
 						<input
+							required	
 							type="text"
 							onChange={handleChange}
 							name="postSubtitle"
@@ -114,6 +116,7 @@ const CreatePost = () => {
 					<div className="flex flex-col">
 						<label for="postPreviewDescription">Post Preview Description</label>
 						<input
+							required
 							type="text"
 							onChange={handleChange}
 							name="postPreviewDescription"
