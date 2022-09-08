@@ -16,7 +16,27 @@ const Component = ({ post }) => {
     const [ postBeingEdited, setPostBeingEdited ] = useState(post);
     const [ sectionsThatChanged, setSectionsThatChanged ] = useState([]);
 
+    const letSee = post.postContent;
+
     const handleSubmit = e => {
+        e.preventDefault();
+
+        const postChanges = document.getElementsByName('postContent');
+
+        const upDatedPost = {
+            ...postBeingEdited,
+            postContent: postChanges[0].textContent
+        }
+
+        console.log('upDatedPost: ', upDatedPost);
+
+        const requestOptions = {
+            method: 'PUT',
+            headers: { "Content-Type": "application/json"},
+            body: JSON.stringify(upDatedPost)
+          }
+          fetch(`http://localhost:3000/api/blogPost/${post._id}`, requestOptions)
+
         e.preventDefault();
     }
 
@@ -24,6 +44,11 @@ const Component = ({ post }) => {
         if(!sectionsThatChanged.includes(e.target.name)){
             setSectionsThatChanged([ ...sectionsThatChanged, e.target.name])
         }
+
+        setPostBeingEdited({
+            ...postBeingEdited,
+            [e.target.name]: [e.target.value]
+        })
     }
 
     const handlePostChange = e => {
@@ -94,7 +119,8 @@ const Component = ({ post }) => {
 						onChange={handlePostChange}
 						className="px-3 w-full h-max border border-black"
 						contentEditable="true"
-					>{post.postContent}</div>
+                        suppressContentEditableWarning={true}
+					>{letSee}</div>
 
                     <button type="submit">Submit</button>
 
