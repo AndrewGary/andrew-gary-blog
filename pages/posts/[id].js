@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import * as loom from '@loomhq/loom-embed'
 
 export const getStaticPaths = async () => {
   const res = await fetch('http://localhost:3000/api/blogPost');
@@ -21,18 +22,23 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const id = context.params.id;
+  const resp = await loom.oembed('https://www.loom.com/share/84beba96d1884ee98a67ec4fc5073efe')
   const res = await fetch(`http://localhost:3000/api/blogPost/${id}`)
   const data = await res.json();
 
   return {
-    props: { post: data }
+    props: { post: data,
+      video: resp
+    }
   }
 }
 
-const Post = ({post}) => { 
+const Post = ({post, video}) => { 
 
   const { data: session } = useSession();
   const router = useRouter();
+
+  console.log('video: ', video);
 
   const { postName, postSubtitle, postContent, postThumbnail, date, time, project } = post;
 
@@ -78,7 +84,7 @@ const Post = ({post}) => {
           </div>
 
           <div className='flex justify-center items-center w-1/3 h-full'>
-            Video Goes here
+            <div className='w-full h-auto' dangerouslySetInnerHTML={{ __html: video.html }} />;
           </div>
         </div>
 

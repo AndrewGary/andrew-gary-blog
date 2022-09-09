@@ -20,8 +20,8 @@ const PostPreview = ({ post }) => {
     }
   return (
         
-    <div className='flex border border-green-500 w-full h-2/5 '>
-        <div className='flex flex-col w-2/3 border border-red-500 py-4'>
+    <div className='flex w-full h-2/5 '>
+        <div className='flex flex-col w-full border border-red-500 py-4 items-center'>
             <div className='flex flex-col justify-center items-center h-2/5'>
                 <span onClick={handleclick} className='my-2 text-3xl underline'>{post.postName}</span>
                 <span onClick={handleclick} className='my-2 text-xl'>{post.postSubtitle}</span>
@@ -39,9 +39,6 @@ const PostPreview = ({ post }) => {
                     Delete this post
                 </button>
             </div>
-        </div>
-
-        <div className='w-1/3 border border-red-500'>
         </div>
     </div>
     
