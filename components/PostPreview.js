@@ -21,7 +21,7 @@ const PostPreview = ({ post }) => {
   return (
         
     <div className='flex w-full h-2/5 '>
-        <div className='flex flex-col w-full border border-red-500 py-4 items-center'>
+        <div className='flex flex-col w-full py-4 items-center'>
             <div className='flex flex-col justify-center items-center h-2/5'>
                 <span onClick={handleclick} className='my-2 text-3xl underline'>{post.postName}</span>
                 <span onClick={handleclick} className='my-2 text-xl'>{post.postSubtitle}</span>

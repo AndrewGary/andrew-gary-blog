@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { currentProjects } from '../../../utils/projects';
+import { useRouter } from 'next/router';
 
 export async function getServerSideProps(context){
     const id = context.params.id;
@@ -12,11 +13,10 @@ export async function getServerSideProps(context){
 }
 
 const Component = ({ post }) => {
+	const router = useRouter();
 
 	const [pageMessage, setPageMessage] = useState('');
-
     const [ postBeingEdited, setPostBeingEdited ] = useState(post);
-    const [ sectionsThatChanged, setSectionsThatChanged ] = useState([]);
 
     const letSee = post.postContent;
 
@@ -30,7 +30,7 @@ const Component = ({ post }) => {
         const upDatedPost = {
             ...postBeingEdited,
             postContent: postChanges[0].textContent,
-			searchQuery: post.postName[0]
+			searchQuery: post.postName
         }
 		
 
@@ -42,11 +42,15 @@ const Component = ({ post }) => {
           fetch(`http://localhost:3000/api/blogPost/${post._id}`, requestOptions)
 		  .then(resp => {
 			if(resp.status === 200){
+				console.log('resp: ', resp);
 				setPageMessage('Post Updated')
+
+				setTimeout(() => {
+					router.back();
+				}, 1000)
 			}
 		  })
 
-        e.preventDefault();
     }
 
     const handleChange = e => {

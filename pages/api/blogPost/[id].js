@@ -32,7 +32,11 @@ export default async function handler(req, res){
                 delete req.body.searchQuery;
                 delete req.body._id;
 
-                const returnValue = await db.collection('blogPosts').replaceOne({ 'postName': searchTerm}, req.body);
+                console.log('searchTerm: ', searchTerm);
+
+                const returnValue = await db.collection('blogPosts').replaceOne({ postName: searchTerm}, req.body);
+
+                console.log('returnValue: ', returnValue);
     
                 res.status(200).json(returnValue)
             }catch(error){

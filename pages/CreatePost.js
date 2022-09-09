@@ -40,6 +40,8 @@ const CreatePost = () => {
 
 		const idk = document.getElementsByName("postContent");
 
+		console.log('idk.textContent: ', idk[0].textContent);
+
 		const now = new Date();
 
 		const requestOptions = {
