@@ -95,8 +95,10 @@ const Post = ({post, video}) => {
 
         <div className='flex justify-start'>
           <div className='mt-5 w-4/5'>
-            <div name='spacer' className='w-1/12 inline-block'></div>
+            <div name='spacer' className='w-1/12 inline-block' />
             {postContent}
+            <div className='w-full h-auto' dangerouslySetInnerHTML={{ __html: postContent }} />;
+
           </div>
         </div>
       </div>

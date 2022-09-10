@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import date from 'date-and-time';
 import { currentProjects } from "../utils/projects";
 
@@ -16,6 +16,7 @@ const initailVallues = {
 const CreatePost = () => {
 	const [formValues, setFormValues] = useState(initailVallues);
 	const [pageMessage, setPageMessage] = useState("");
+	const [postMaterial, setPostMaterial] = useState('');
 
 	const handleChange = (e) => {
 
@@ -35,13 +36,16 @@ const CreatePost = () => {
 		}
 	};
 
+	const processConent = (string) => {
+		console.log(string)
+	}
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		const idk = document.getElementsByName("postContent");
+		let letsSee = processConent(postMaterial)
 
-		console.log('idk.textContent: ', idk[0].textContent);
-
+		
 		const now = new Date();
 
 		const requestOptions = {
@@ -51,7 +55,7 @@ const CreatePost = () => {
 				postName: formValues.postName,
 				postSubtitle: formValues.postSubtitle,
 				postPreviewDescription: formValues.postPreviewDescription,
-				postContent: idk[0].textContent,
+				postContent: postMaterial,
 				date: date.format(now, 'MM/DD/YYYY'),
 				time: date.format(now, 'HH:mm:ss:A'),
 				project: {...formValues.project}
@@ -70,6 +74,37 @@ const CreatePost = () => {
 				console.log(error);
 			});
 	};
+
+	const handleContentChange = e => {
+
+		if(e.key === 'Enter'){
+			setPostMaterial(postMaterial + '<br>')
+		}else if(e.key === 'Backspace'){
+			const gg = postMaterial.slice(0, -1);
+
+			setPostMaterial(gg);
+		}else if(e.key === 'Shift' || e.key === 'CapsLock' || e.key === 'Control' || e.key === 'Alt'){
+			
+		}else if(e.key === 'Tab'){
+			console.log(e.key)
+		}else{
+			setPostMaterial(
+				postMaterial + e.key
+			)
+		}
+		// if(e.key === 'Shift'){
+
+		// } else if(e.key === 'Backspace'){
+		// 	console.log(postMaterial[0])
+		// }else{
+		// 	setPostMaterial(postMaterial + e.key)
+		// }
+		
+	}
+
+	useEffect(() => {
+		console.log(postMaterial);
+	}, [postMaterial])
 
 	return (
 		<div className="flex justify-center items-center w-full h-screen">
@@ -131,10 +166,18 @@ const CreatePost = () => {
 						name="postContent"
 						className="px-3 w-full h-max border border-black"
 						contentEditable="true"
+						onKeyDown={(e) => {if(e.key === 'Tab'){e.preventDefault()}}}
+						onKeyUp={handleContentChange}
 					></div>
 
 					<button type="submit">Submit</button>
 				</form>
+
+				{/* <div className="border border-slate-200 w-full">
+
+					{postMaterial}
+				</div> */}
+				<div className='w-full h-auto' dangerouslySetInnerHTML={{ __html: postMaterial }} />
 			</div>
 		</div>
 	);
