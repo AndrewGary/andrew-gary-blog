@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import date from 'date-and-time';
 import { currentProjects } from "../utils/projects";
+import ContentEditable from "react-contenteditable";
 
 
 
@@ -9,6 +10,7 @@ const initailVallues = {
 	postSubtitle: "",
 	postPreviewDescription: "",
 	postContent: "",
+	videoUrl: '',
 	postThumbnail: "",
 	project: null
 };
@@ -16,9 +18,10 @@ const initailVallues = {
 const CreatePost = () => {
 	const [formValues, setFormValues] = useState(initailVallues);
 	const [pageMessage, setPageMessage] = useState("");
-	const [postMaterial, setPostMaterial] = useState('');
+	const text = useRef('');
 
 	const handleChange = (e) => {
+		console.log(e.target.name);
 
 		if(e.target.name === 'project'){
 
@@ -36,15 +39,8 @@ const CreatePost = () => {
 		}
 	};
 
-	const processConent = (string) => {
-		console.log(string)
-	}
-
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		let letsSee = processConent(postMaterial)
-
 		
 		const now = new Date();
 
@@ -55,7 +51,8 @@ const CreatePost = () => {
 				postName: formValues.postName,
 				postSubtitle: formValues.postSubtitle,
 				postPreviewDescription: formValues.postPreviewDescription,
-				postContent: postMaterial,
+				postContent: text.current,
+				videoURL: formValues.videoUrl,
 				date: date.format(now, 'MM/DD/YYYY'),
 				time: date.format(now, 'HH:mm:ss:A'),
 				project: {...formValues.project}
@@ -76,35 +73,8 @@ const CreatePost = () => {
 	};
 
 	const handleContentChange = e => {
-
-		if(e.key === 'Enter'){
-			setPostMaterial(postMaterial + '<br>')
-		}else if(e.key === 'Backspace'){
-			const gg = postMaterial.slice(0, -1);
-
-			setPostMaterial(gg);
-		}else if(e.key === 'Shift' || e.key === 'CapsLock' || e.key === 'Control' || e.key === 'Alt'){
-			
-		}else if(e.key === 'Tab'){
-			console.log(e.key)
-		}else{
-			setPostMaterial(
-				postMaterial + e.key
-			)
-		}
-		// if(e.key === 'Shift'){
-
-		// } else if(e.key === 'Backspace'){
-		// 	console.log(postMaterial[0])
-		// }else{
-		// 	setPostMaterial(postMaterial + e.key)
-		// }
-		
+		text.current = e.target.value;
 	}
-
-	useEffect(() => {
-		console.log(postMaterial);
-	}, [postMaterial])
 
 	return (
 		<div className="flex justify-center items-center w-full h-screen">
@@ -161,23 +131,25 @@ const CreatePost = () => {
 							className="border border-black w-full"
 						/>
 					</div>
+					<div className="flex flex-col">
+						<label for='videoUrl'>Loom Video URL</label>
+						<input
+							className="border border-black"
+							name='videoUrl'
+							type='text'
+							onChange={handleChange}
+						/>
+					</div>
 					<label for="postContent">Post</label>
-					<div
-						name="postContent"
-						className="px-3 w-full h-max border border-black"
-						contentEditable="true"
-						onKeyDown={(e) => {if(e.key === 'Tab'){e.preventDefault()}}}
-						onKeyUp={handleContentChange}
-					></div>
 
+					<ContentEditable
+						name='postContent'
+						className="border border-black"
+						html={text.current}
+						onChange={handleContentChange}
+					/>
 					<button type="submit">Submit</button>
 				</form>
-
-				{/* <div className="border border-slate-200 w-full">
-
-					{postMaterial}
-				</div> */}
-				<div className='w-full h-auto' dangerouslySetInnerHTML={{ __html: postMaterial }} />
 			</div>
 		</div>
 	);

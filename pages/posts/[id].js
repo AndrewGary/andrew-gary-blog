@@ -22,9 +22,9 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const id = context.params.id;
-  const resp = await loom.oembed('https://www.loom.com/share/84beba96d1884ee98a67ec4fc5073efe')
   const res = await fetch(`http://localhost:3000/api/blogPost/${id}`)
   const data = await res.json();
+  const resp = await loom.oembed(data.videoURL)
 
   return {
     props: { post: data,
@@ -37,6 +37,8 @@ const Post = ({post, video}) => {
 
   const { data: session } = useSession();
   const router = useRouter();
+
+  console.log('data: ', post);
 
   console.log('video: ', video);
 
@@ -89,15 +91,14 @@ const Post = ({post, video}) => {
           </div>
 
           <div className='flex justify-center items-center w-1/3 h-full'>
-            <div className='w-full h-auto' dangerouslySetInnerHTML={{ __html: video.html }} />;
+            <div className='w-full h-auto' dangerouslySetInnerHTML={{ __html: video.html }} />
           </div>
         </div>
 
         <div className='flex justify-start'>
           <div className='mt-5 w-4/5'>
             <div name='spacer' className='w-1/12 inline-block' />
-            {postContent}
-            <div className='w-full h-auto' dangerouslySetInnerHTML={{ __html: postContent }} />;
+            <div className='w-full h-auto' dangerouslySetInnerHTML={{ __html: postContent }} />
 
           </div>
         </div>

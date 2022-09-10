@@ -50,7 +50,7 @@ export default function Home({yeahhh}) {
 
   return (
     <>
-    <button onClick={populatePosts}>populate</button>
+    {/* <button onClick={populatePosts}>populate</button> */}
     <div className='flex flex-col h-screen'>
       {posts.map((post, index) => {
         return <PostPreview key={index} post={post} />
