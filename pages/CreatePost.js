@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import date from 'date-and-time';
 import { currentProjects } from "../utils/projects";
+import ContentEditable from "react-contenteditable";
 
 
 
@@ -9,6 +10,7 @@ const initailVallues = {
 	postSubtitle: "",
 	postPreviewDescription: "",
 	postContent: "",
+	videoUrl: '',
 	postThumbnail: "",
 	project: null
 };
@@ -16,8 +18,10 @@ const initailVallues = {
 const CreatePost = () => {
 	const [formValues, setFormValues] = useState(initailVallues);
 	const [pageMessage, setPageMessage] = useState("");
+	const text = useRef('');
 
 	const handleChange = (e) => {
+		console.log(e.target.name);
 
 		if(e.target.name === 'project'){
 
@@ -37,9 +41,7 @@ const CreatePost = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		const idk = document.getElementsByName("postContent");
-
+		
 		const now = new Date();
 
 		const requestOptions = {
@@ -49,7 +51,8 @@ const CreatePost = () => {
 				postName: formValues.postName,
 				postSubtitle: formValues.postSubtitle,
 				postPreviewDescription: formValues.postPreviewDescription,
-				postContent: idk[0].textContent,
+				postContent: text.current,
+				videoURL: formValues.videoUrl,
 				date: date.format(now, 'MM/DD/YYYY'),
 				time: date.format(now, 'HH:mm:ss:A'),
 				project: {...formValues.project}
@@ -68,6 +71,10 @@ const CreatePost = () => {
 				console.log(error);
 			});
 	};
+
+	const handleContentChange = e => {
+		text.current = e.target.value;
+	}
 
 	return (
 		<div className="flex justify-center items-center w-full h-screen">
@@ -124,13 +131,23 @@ const CreatePost = () => {
 							className="border border-black w-full"
 						/>
 					</div>
+					<div className="flex flex-col">
+						<label for='videoUrl'>Loom Video URL</label>
+						<input
+							className="border border-black"
+							name='videoUrl'
+							type='text'
+							onChange={handleChange}
+						/>
+					</div>
 					<label for="postContent">Post</label>
-					<div
-						name="postContent"
-						className="px-3 w-full h-max border border-black"
-						contentEditable="true"
-					></div>
 
+					<ContentEditable
+						name='postContent'
+						className="border border-black"
+						html={text.current}
+						onChange={handleContentChange}
+					/>
 					<button type="submit">Submit</button>
 				</form>
 			</div>
