@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { currentProjects } from '../../../utils/projects';
 import { useRouter } from 'next/router';
+import ContentEditable from 'react-contenteditable';
 
 export async function getServerSideProps(context){
     const id = context.params.id;
@@ -11,14 +12,18 @@ export async function getServerSideProps(context){
         props: {post: data}
     }
 }
-
+//This is the point to stop
 const Component = ({ post }) => {
 	const router = useRouter();
-
+	const text = useRef(post.postContent);
 	const [pageMessage, setPageMessage] = useState('');
-    const [ postBeingEdited, setPostBeingEdited ] = useState(post);
+    const [ formValues, setFormValues ] = useState(post);
 
     const letSee = post.postContent;
+
+	useEffect(() => {
+		console.log(formValues);
+	}, [formValues])
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -28,8 +33,8 @@ const Component = ({ post }) => {
         const postChanges = document.getElementsByName('postContent');
 
         const upDatedPost = {
-            ...postBeingEdited,
-            postContent: postChanges[0].textContent,
+            ...formValues,
+            postContent: text.current,
 			searchQuery: post.postName
         }
 		
@@ -54,15 +59,15 @@ const Component = ({ post }) => {
     }
 
     const handleChange = e => {
-        if(!sectionsThatChanged.includes(e.target.name)){
-            setSectionsThatChanged([ ...sectionsThatChanged, e.target.name])
-        }
-
-        setPostBeingEdited({
-            ...postBeingEdited,
+        setFormValues({
+            ...formValues,
             [e.target.name]: e.target.value
         })
     }
+
+	const handleContentChange = e => {
+		text.current = e.target.value;
+	}
 
     return (
         <div className="flex justify-center items-center w-full h-screen">
@@ -93,7 +98,7 @@ const Component = ({ post }) => {
 							type="text"
 							onChange={handleChange}
 							name="postName"
-							value={postBeingEdited.postName}
+							value={formValues.postName}
 							className="border border-black w-full"
 						/>
 					</div>
@@ -104,7 +109,7 @@ const Component = ({ post }) => {
 							type="text"
 							onChange={handleChange}
 							name="postSubtitle"
-							value={postBeingEdited.postSubtitle}
+							value={formValues.postSubtitle}
 							className="border border-black w-full"
 						/>
 					</div>
@@ -115,19 +120,30 @@ const Component = ({ post }) => {
 							type="text"
 							onChange={handleChange}
 							name="postPreviewDescription"
-							value={postBeingEdited.postPreviewDescription}
+							value={formValues.postPreviewDescription}
+							className="border border-black w-full"
+						/>
+					</div>
+					<div className='flex flex-col'>
+						<label for='videoURL'>Loom Video URL</label>
+						<input
+							name='videoURL'
+							value={formValues.videoURL}
+							onChange={handleChange}
+							type='text'
 							className="border border-black w-full"
 						/>
 					</div>
 
-                    <label for="postContent">Post</label>
-					<div
-						name="postContent"
-						className="px-3 w-full h-max border border-black"
-						contentEditable="true"
-                        suppressContentEditableWarning={true}
-					>{letSee}</div>
-
+					<div className='flex flex-col'>
+						<label for="postContent">Post</label>
+						<ContentEditable
+							name='postContent'
+							className='border border-black'
+							html={text.current}
+							onChange={handleContentChange}
+						/>
+					</div>
                     <button type="submit">Submit</button>
 
                 </form>
