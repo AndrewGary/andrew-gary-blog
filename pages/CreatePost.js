@@ -3,8 +3,21 @@ import date from 'date-and-time';
 import { currentProjects } from "../utils/projects";
 import ContentEditable from "react-contenteditable";
 import AddLink from "../components/AddLink";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from './api/auth/[...nextauth]';
+import { useSession } from "next-auth/react";
 
-
+export async function getServerSideProps(context){
+	return {
+		props: {
+			session: await unstable_getServerSession(
+				context.req,
+				context.res,
+				authOptions
+			)
+		}
+	}
+}
 
 const initailVallues = {
 	postName: "",
@@ -16,60 +29,11 @@ const initailVallues = {
 	project: null
 };
 
-// const AddLink = (props) => {
-
-// 	const {text, insertActive, setInsertActive} = props;
-
-// 	const initalLinkState = {
-// 		linkText: '',
-// 		linkHref: ''
-// 	}
-
-// 	const [linkInfo, setLinkInfo] = useState(initalLinkState);
-
-// 	const handleLinkChange = e => {
-// 		setLinkInfo({
-// 			...linkInfo,
-// 			[e.target.name]: e.target.value
-// 		})
-// 	}
-
-// 	const handleFinishLink = e => {
-// 		e.preventDefault();
-// 		text.current = text.current + `<a style="color:blue;" href="${linkInfo.linkHref}">${linkInfo.linkText}</a>`
-
-// 		setInsertActive(!insertActive);
-// 	}
-
-// 	return (
-// 		<div className="border border-black w-52 h-32 flex flex-col">
-// 			<div className="flex flex-col">
-// 			<label for='linkText'>Text</label>
-// 			<input
-// 				type='text'
-// 				name='linkText'
-// 				onChange={handleLinkChange}
-// 				className="border border-black"
-// 			/>
-// 			</div>
-
-// 			<div className="flex flex-col">
-// 			<label for='linkHref'>Href</label>
-// 			<input
-// 				type='text'
-// 				name='linkHref'
-// 				onChange={handleLinkChange}
-// 				className="border border-black"
-// 			/>
-// 			</div>
-
-// 			<button onClick={handleFinishLink}>Finished</button>
-
-// 		</div>
-// 	)
-// }
-
 const CreatePost = () => {
+	const { data: session } = useSession();
+
+	console.log('SESSION: ', session);
+	
 	const [formValues, setFormValues] = useState(initailVallues);
 	const [pageMessage, setPageMessage] = useState("");
 	const [insertActive, setInsertActive] = useState(false);
@@ -120,6 +84,7 @@ const CreatePost = () => {
 					setPageMessage("Post successfully uploaded");
 					setFormValues(initailVallues);
 					idk[0].textContent = "";
+					text.current = '';
 				}
 			})
 			.catch((error) => {
@@ -131,15 +96,20 @@ const CreatePost = () => {
 		text.current = e.target.value;
 	}
 
-	useEffect(() => {
-		console.log(text.current);
-	}, [text])
-
 	const insertLink = e => {
 		e.preventDefault();
 		setInsertActive(!insertActive)
 	}
-
+	if(!session){
+		return (
+			<div className="w-full pt-32 flex items-center justify-center">
+				<div className="w-1/5 h-1/6 flex flex-col justify-center items-center font-bold text-3xl">
+					<div>Access Denied</div>
+					<div>Admin Only Page</div>
+				</div>
+			</div>
+		)
+	}
 	return (
 		<div className="flex justify-center items-center w-full h-screen">
 			<div className="flex flex-col border border-slate-300 rounded-md items-center w-4/5 h-full py-5 px-4">
@@ -219,6 +189,8 @@ const CreatePost = () => {
 						onChange={handleContentChange}
 					/>
 					<button type="submit">Submit</button>
+					<button className="border border-black rounded-md" onClick={(e) => {e.preventDefault()
+						text.current.reset()}}>Test</button>
 				</form>
 			</div>
 		</div>

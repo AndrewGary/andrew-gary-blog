@@ -2,6 +2,9 @@ import React, { useEffect, useState, useRef } from 'react'
 import { currentProjects } from '../../../utils/projects';
 import { useRouter } from 'next/router';
 import ContentEditable from 'react-contenteditable';
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from '../../api/auth/[...nextauth]';
+import { useSession } from "next-auth/react";
 
 export async function getServerSideProps(context){
     const id = context.params.id;
@@ -9,11 +12,21 @@ export async function getServerSideProps(context){
     const data = await res.json();
 
     return{
-        props: {post: data}
+        props: {
+			post: data,
+			session: await unstable_getServerSession(
+				context.req,
+				context.res,
+				authOptions
+			)
+		}
     }
 }
-//This is the point to stop
+
 const Component = ({ post }) => {
+
+	const { data: session} = useSession();
+
 	const router = useRouter();
 	const text = useRef(post.postContent);
 	const [pageMessage, setPageMessage] = useState('');
@@ -69,6 +82,16 @@ const Component = ({ post }) => {
 		text.current = e.target.value;
 	}
 
+	if(!session){
+		return (
+			<div className="w-full pt-32 flex items-center justify-center">
+				<div className="w-1/5 h-1/6 flex flex-col justify-center items-center font-bold text-3xl">
+					<div>Access Denied</div>
+					<div>Admin Only Page</div>
+				</div>
+			</div>
+		)
+	}
     return (
         <div className="flex justify-center items-center w-full h-screen">
             <div className="flex flex-col border border-slate-300 rounded-md items-center w-4/5 h-full py-5 px-4">
