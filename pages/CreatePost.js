@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import date from 'date-and-time';
 import { currentProjects } from "../utils/projects";
 import ContentEditable from "react-contenteditable";
+import AddLink from "../components/AddLink";
 
 
 
@@ -15,9 +16,63 @@ const initailVallues = {
 	project: null
 };
 
+// const AddLink = (props) => {
+
+// 	const {text, insertActive, setInsertActive} = props;
+
+// 	const initalLinkState = {
+// 		linkText: '',
+// 		linkHref: ''
+// 	}
+
+// 	const [linkInfo, setLinkInfo] = useState(initalLinkState);
+
+// 	const handleLinkChange = e => {
+// 		setLinkInfo({
+// 			...linkInfo,
+// 			[e.target.name]: e.target.value
+// 		})
+// 	}
+
+// 	const handleFinishLink = e => {
+// 		e.preventDefault();
+// 		text.current = text.current + `<a style="color:blue;" href="${linkInfo.linkHref}">${linkInfo.linkText}</a>`
+
+// 		setInsertActive(!insertActive);
+// 	}
+
+// 	return (
+// 		<div className="border border-black w-52 h-32 flex flex-col">
+// 			<div className="flex flex-col">
+// 			<label for='linkText'>Text</label>
+// 			<input
+// 				type='text'
+// 				name='linkText'
+// 				onChange={handleLinkChange}
+// 				className="border border-black"
+// 			/>
+// 			</div>
+
+// 			<div className="flex flex-col">
+// 			<label for='linkHref'>Href</label>
+// 			<input
+// 				type='text'
+// 				name='linkHref'
+// 				onChange={handleLinkChange}
+// 				className="border border-black"
+// 			/>
+// 			</div>
+
+// 			<button onClick={handleFinishLink}>Finished</button>
+
+// 		</div>
+// 	)
+// }
+
 const CreatePost = () => {
 	const [formValues, setFormValues] = useState(initailVallues);
 	const [pageMessage, setPageMessage] = useState("");
+	const [insertActive, setInsertActive] = useState(false);
 	const text = useRef('');
 
 	const handleChange = (e) => {
@@ -74,6 +129,15 @@ const CreatePost = () => {
 
 	const handleContentChange = e => {
 		text.current = e.target.value;
+	}
+
+	useEffect(() => {
+		console.log(text.current);
+	}, [text])
+
+	const insertLink = e => {
+		e.preventDefault();
+		setInsertActive(!insertActive)
 	}
 
 	return (
@@ -141,6 +205,12 @@ const CreatePost = () => {
 						/>
 					</div>
 					<label for="postContent">Post</label>
+					<div>
+						Insert:
+						<button onClick={insertLink} className="border border-slate-300 hover:border-slate-500 rounded-md">Link</button>
+					</div>
+
+					{insertActive ? <AddLink text={text} insertActive={insertActive} setInsertActive={setInsertActive}/> : ''}
 
 					<ContentEditable
 						name='postContent'

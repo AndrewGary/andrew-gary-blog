@@ -42,6 +42,8 @@ const Post = ({post, video}) => {
 
   console.log('video: ', video);
 
+  console.log('post.postContent: ', post.postContent)
+
   const { postName, postSubtitle, postContent, postThumbnail, date, time, project } = post;
 
   return (
