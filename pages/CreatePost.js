@@ -36,7 +36,7 @@ const CreatePost = () => {
 	
 	const [formValues, setFormValues] = useState(initailVallues);
 	const [pageMessage, setPageMessage] = useState("");
-	const [insertActive, setInsertActive] = useState(false);
+	const [insertActive, setInsertActive] = useState({active: false, type: ''});
 	const text = useRef('');
 
 	const handleChange = (e) => {
@@ -98,7 +98,11 @@ const CreatePost = () => {
 
 	const insertLink = e => {
 		e.preventDefault();
-		setInsertActive(!insertActive)
+		setInsertActive({
+			...insertActive,
+			active: !insertActive.active,
+			type: e.target.name
+		})
 	}
 	if(!session){
 		return (
@@ -116,71 +120,73 @@ const CreatePost = () => {
 				<h1 className="flex justify-center border-b border-slate-300 w-5/6">
 					New Post
 				</h1>
-				<form className=" w-1/2" onSubmit={handleSubmit}>
+				<form className=" w-full" onSubmit={handleSubmit}>
+					<div className="w-1/2">
+						<div className="flex flex-col">
+							<label htmlFor="project" className=" text-gray-500">
+								Select which project this Post is about.
+							</label>
+							<select required id="project" name="project" className="text-gray-500 border border-gray-400 w-1/2" onChange={handleChange}>
+								<option value=''>--Select Poject--</option>
+								{currentProjects.map((project, index) => {
+								return <option key={index} value={index}>{project.name}</option>
+								})}
+							</select>
+						</div>
 
-					<div className="flex flex-col">
-						<label htmlFor="project" className=" text-gray-500">
-							Select which project this Post is about.
-						</label>
-						<select required id="project" name="project" className="text-gray-500 border border-gray-400 w-1/2" onChange={handleChange}>
-							<option value=''>--Select Poject--</option>
-							{currentProjects.map((project, index) => {
-							return <option key={index} value={index}>{project.name}</option>
-							})}
-						</select>
-					</div>
+						<div className="flex flex-col">
+							<label for="postName">Post Title</label>
+							<input
+								required
+								type="text"
+								onChange={handleChange}
+								name="postName"
+								value={formValues.postName}
+								className="border border-black w-full"
+							/>
+						</div>
 
-					<div className="flex flex-col">
-						<label for="postName">Post Title</label>
-						<input
-							required
-							type="text"
-							onChange={handleChange}
-							name="postName"
-							value={formValues.postName}
-							className="border border-black w-full"
-						/>
-					</div>
+						<div className="flex flex-col">
+							<label for="postSubtitle">Post Subtitle</label>
+							<input
+								required	
+								type="text"
+								onChange={handleChange}
+								name="postSubtitle"
+								value={formValues.postSubtitle}
+								className="border border-black w-full"
+							/>
+						</div>
 
-					<div className="flex flex-col">
-						<label for="postSubtitle">Post Subtitle</label>
-						<input
-							required	
-							type="text"
-							onChange={handleChange}
-							name="postSubtitle"
-							value={formValues.postSubtitle}
-							className="border border-black w-full"
-						/>
-					</div>
-
-					<div className="flex flex-col">
-						<label for="postPreviewDescription">Post Preview Description</label>
-						<input
-							required
-							type="text"
-							onChange={handleChange}
-							name="postPreviewDescription"
-							value={formValues.postPreviewDescription}
-							className="border border-black w-full"
-						/>
-					</div>
-					<div className="flex flex-col">
-						<label for='videoUrl'>Loom Video URL</label>
-						<input
-							className="border border-black"
-							name='videoUrl'
-							type='text'
-							onChange={handleChange}
-						/>
+						<div className="flex flex-col">
+							<label for="postPreviewDescription">Post Preview Description</label>
+							<input
+								required
+								type="text"
+								onChange={handleChange}
+								name="postPreviewDescription"
+								value={formValues.postPreviewDescription}
+								className="border border-black w-full"
+							/>
+						</div>
+						<div className="flex flex-col">
+							<label for='videoUrl'>Loom Video URL</label>
+							<input
+								className="border border-black"
+								name='videoUrl'
+								type='text'
+								onChange={handleChange}
+							/>
+						</div>
 					</div>
 					<label for="postContent">Post</label>
 					<div>
 						Insert:
-						<button onClick={insertLink} className="border border-slate-300 hover:border-slate-500 rounded-md">Link</button>
+						<button name='link' onClick={insertLink} className="border border-slate-300 hover:border-slate-500 rounded-md">Link</button>
+						<button name='youtube' onClick={insertLink} className="border border-slate-300 hover:border-slate-500 rounded-md">Youtube</button>
 					</div>
 
-					{insertActive ? <AddLink text={text} insertActive={insertActive} setInsertActive={setInsertActive}/> : ''}
+					{insertActive.active ? <AddLink type={insertActive.type} text={text} insertActive={insertActive} setInsertActive={setInsertActive}/> : ''}
 
 					<ContentEditable
 						name='postContent'
