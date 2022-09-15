@@ -56,7 +56,7 @@ const AddLink = (props) => {
 		return (
 			<div className="border border-black w-52 h-32 flex flex-col">
 				<div className="flex flex-col">
-					<label for='youtubeURL'>Youtube URL</label>
+					<label htmlFor='youtubeURL'>Youtube URL</label>
 					<input
 						type='text'
 						// name='youtubeURL'
@@ -73,7 +73,7 @@ const AddLink = (props) => {
 	return (
 		<div className="border border-black w-52 h-32 flex flex-col">
 			<div className="flex flex-col">
-			<label for='linkText'>Text</label>
+			<label htmlFor='linkText'>Text</label>
 			<input
 				type='text'
 				name='linkText'
@@ -83,7 +83,7 @@ const AddLink = (props) => {
 			</div>
 
 			<div className="flex flex-col">
-			<label for='linkHref'>Href</label>
+			<label htmlFor='linkHref'>Href</label>
 			<input
 				type='text'
 				name='linkHref'

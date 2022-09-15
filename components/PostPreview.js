@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 const PostPreview = ({ post }) => {
@@ -20,7 +19,7 @@ const PostPreview = ({ post }) => {
     }
   return (
         
-    <div className='flex w-full h-2/5 '>
+    <div className='flex w-full bg-carbon bg-opacity-25 my-3'>
         <div className='flex flex-col w-full py-4 items-center'>
             <div className='flex flex-col justify-center items-center h-2/5'>
                 <span onClick={handleclick} className='my-2 text-3xl border-b border-watermellon'>{post.postName}</span>

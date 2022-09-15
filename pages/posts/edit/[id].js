@@ -116,7 +116,7 @@ const Component = ({ post }) => {
 					</div>
 
                     <div className="flex flex-col">
-						<label for="postName">Post Title</label>
+						<label htmlFor="postName">Post Title</label>
 						<input
 							type="text"
 							onChange={handleChange}
@@ -127,7 +127,7 @@ const Component = ({ post }) => {
 					</div>
 
                     <div className="flex flex-col">
-						<label for="postSubtitle">Post Subtitle</label>
+						<label htmlFor="postSubtitle">Post Subtitle</label>
 						<input
 							type="text"
 							onChange={handleChange}
@@ -138,7 +138,7 @@ const Component = ({ post }) => {
 					</div>
 
                     <div className="flex flex-col">
-						<label for="postPreviewDescription">Post Preview Description</label>
+						<label htmlFor="postPreviewDescription">Post Preview Description</label>
 						<input
 							type="text"
 							onChange={handleChange}
@@ -148,7 +148,7 @@ const Component = ({ post }) => {
 						/>
 					</div>
 					<div className='flex flex-col'>
-						<label for='videoURL'>Loom Video URL</label>
+						<label htmlFor='videoURL'>Loom Video URL</label>
 						<input
 							name='videoURL'
 							value={formValues.videoURL}
@@ -159,7 +159,7 @@ const Component = ({ post }) => {
 					</div>
 
 					<div className='flex flex-col'>
-						<label for="postContent">Post</label>
+						<label htmlFor="postContent">Post</label>
 						<ContentEditable
 							name='postContent'
 							className='border border-black'
