@@ -23,7 +23,7 @@ const PostPreview = ({ post }) => {
     <div className='flex w-full h-2/5 '>
         <div className='flex flex-col w-full py-4 items-center'>
             <div className='flex flex-col justify-center items-center h-2/5'>
-                <span onClick={handleclick} className='my-2 text-3xl underline'>{post.postName}</span>
+                <span onClick={handleclick} className='my-2 text-3xl border-b border-watermellon'>{post.postName}</span>
                 <span onClick={handleclick} className='my-2 text-xl'>{post.postSubtitle}</span>
             </div>
 
@@ -31,12 +31,8 @@ const PostPreview = ({ post }) => {
                 {post.postPreviewDescription}
             </div>
             <div className='w-full flex justify-center items-center'>
-                <button  onClick={handleclick} className='w-1/6 flex justify-center items-center border border-gray-300 hover:border-gray-500 bg-gray-200 hover:bg-gray-400 rounded-xl'>
+                <button  onClick={handleclick} className='w-1/6 flex justify-center items-center border-2 border-carbon font-bold hover:bg-carbon hover:border-2 hover:border-watermellon rounded-xl bg-watermellon transition-all duration-300'>
                     View Post
-                </button>
-
-                <button onClick={handleDelete}>
-                    Delete this post
                 </button>
             </div>
         </div>
