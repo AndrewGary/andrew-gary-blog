@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 const Layout = ({ children }) => {
   return (
-    <div>
+    <div className='bg-neutral p-3'>
         <Head>
           <title>Andrew Gary - Dev Blog</title>
         </Head>
