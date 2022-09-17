@@ -19,6 +19,10 @@ const now = new Date();
 
 const testing = ({yeahhh}) => {
 
+  if(process.env.NODE_ENV === 'development'){
+    console.log('development');
+  }
+
   console.log('yeah: ',yeahhh);
   return (
     <div className='flex w-full h-screen justify-center items-center'>

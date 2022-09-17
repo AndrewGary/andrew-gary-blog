@@ -9,14 +9,14 @@ const PostPreview = ({ post }) => {
         router.push(`/posts/${post._id}`)
     }
 
-    const handleDelete = async e => {
-        const requestOptions = {
-            method: 'DELETE', 
-        }
+    // const handleDelete = async e => {
+    //     const requestOptions = {
+    //         method: 'DELETE', 
+    //     }
 
-        const res = await fetch(`http://localhost:3000/api/blogPost/${post._id}`, requestOptions)
-        router.push('/')
-    }
+    //     const res = await fetch(`http://localhost:3000/api/blogPost/${post._id}`, requestOptions)
+    //     router.push('/')
+    // }
   return (
         
     <div className='flex w-full bg-carbon bg-opacity-25 my-3'>

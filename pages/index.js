@@ -4,7 +4,9 @@ import { dummyPosts } from '../dummyData';
 
 export const getStaticProps = async () => {
 
-  const res = await fetch('http://localhost:3000/api/blogPost')
+  const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : 'https://andrew-gary-blog-owk02fehp-andrewgary.vercel.app/'
+
+  const res = await fetch(`${baseURL}api/blogPost`)
   const data = await res.json();
 
   return {
