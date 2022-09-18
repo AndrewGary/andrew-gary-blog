@@ -1,20 +1,5 @@
 import PostPreview from '../components/PostPreview';
 import { useState, useEffect } from 'react';
-import { dummyPosts } from '../dummyData';
-
-// export const getStaticProps = async () => {
-
-//   const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : 'https://andrew-gary-blog-owk02fehp-andrewgary.vercel.app/'
-
-//   const res = await fetch(`${baseURL}api/blogPost`)
-//   const data = await res.json();
-
-//   return {
-//     props: {
-//       yeahhh: data
-//     }
-//   }
-// }
 
 export default function Home(props) {
 
