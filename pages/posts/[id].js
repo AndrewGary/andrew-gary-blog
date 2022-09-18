@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import * as loom from "@loomhq/loom-embed";
 
 export const getStaticPaths = async () => {
-	const res = await fetch("http://localhost:3000/api/blogPost");
+	const res = await fetch("/api/blogPost");
 	const data = await res.json();
 
 	const paths = data.map((check) => {
@@ -22,7 +22,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
 	const id = context.params.id;
-	const res = await fetch(`http://localhost:3000/api/blogPost/${id}`);
+	const res = await fetch(`/api/blogPost/${id}`);
 	const data = await res.json();
 	const resp = await loom.oembed(data.videoURL);
 

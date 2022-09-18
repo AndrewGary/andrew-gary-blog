@@ -57,7 +57,7 @@ const Component = ({ post }) => {
             headers: { "Content-Type": "application/json"},
             body: JSON.stringify(upDatedPost),
           }
-          fetch(`http://localhost:3000/api/blogPost/${post._id}`, requestOptions)
+          fetch(`/api/blogPost/${post._id}`, requestOptions)
 		  .then(resp => {
 			if(resp.status === 200){
 				console.log('resp: ', resp);
