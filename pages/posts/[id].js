@@ -1,14 +1,24 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import * as loom from "@loomhq/loom-embed";
+import { connectToDatabase } from "../../utils/mongoConnection";
+const {ObjectId} = require('mongodb');
+
 
 export const getStaticPaths = async () => {
-	const res = await fetch("/api/blogPost");
-	const data = await res.json();
+	const connection = await connectToDatabase();
 
-	const paths = data.map((check) => {
+    const db = connection.db;
+
+	const allPosts = await db.collection('blogPosts').find({}).toArray();
+
+	// const data = await allPosts.json();
+	// const res = await fetch("http://localhost:3000/api/blogPost");
+	// const data = await res.json();
+
+	const paths = allPosts.map((check) => {
 		return {
 			params: { id: check._id.toString() },
 		};
@@ -21,19 +31,27 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
+	const connection = await connectToDatabase();
+
+    const db = connection.db;
 	const id = context.params.id;
-	const res = await fetch(`/api/blogPost/${id}`);
-	const data = await res.json();
-	const resp = await loom.oembed(data.videoURL);
+	const res = await db.collection('blogPosts').findOne({ _id : ObjectId(context.params.id)})
+	// const res = await fetch(`/api/blogPost/${id}`);
+	const aa = JSON.stringify(res);
+
+	const data = JSON.parse(aa);
+	// const resp = await loom.oembed(data.videoURL);
 
 	return {
-		props: { post: data, video: resp },
+		props: { post: data},
 	};
 };
 
-const Post = ({ post, video }) => {
+const Post = ({ post }) => {
 	const { data: session } = useSession();
 	const router = useRouter();
+
+	const [loomVideo, setLoomVideo] = useState({});
 
 	const {
 		postName,
@@ -42,6 +60,14 @@ const Post = ({ post, video }) => {
 		date,
 		time,
 	} = post;
+
+	useEffect(() => {
+		const fetchVideo = async () => {
+			const v = await loom.oembed(data.videoURL);
+			setLoomVideo(v);
+		}
+		fetchVideo();
+	}, [])
 
 	return (
 		<div className="flex justify-center items-center w-full h-screen">
@@ -71,7 +97,7 @@ const Post = ({ post, video }) => {
 								<div className="flex flex-col h-1/3 items-center">
 									<div>
 										<span className=" text-2xl font-bold">
-											{post.project.name}
+											{post.project.name && post.project.name}
 										</span>
 									</div>
 
@@ -96,7 +122,7 @@ const Post = ({ post, video }) => {
 						</div>
 					</div>
 
-          <div name='spacer' className="w-3">
+          <div className="w-3">
 
           </div>
 
@@ -104,7 +130,7 @@ const Post = ({ post, video }) => {
 						<span className="mb-3 text-2xl">Video description of changes</span>
 						<div
 							className="w-1/2 h-auto"
-							dangerouslySetInnerHTML={{ __html: video.html }}
+							dangerouslySetInnerHTML={{ __html: loomVideo.html }}
 						/>
 					</div>
 				</div>
