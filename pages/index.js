@@ -1,19 +1,39 @@
 import PostPreview from '../components/PostPreview';
 import { useState, useEffect } from 'react';
+import { connectToDatabase } from '../utils/mongoConnection';
 
-export default function Home(props) {
+export const getStaticProps = async () => {
 
-  const [posts, setPosts] = useState([]);
+  const connection = await connectToDatabase();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const allPosts = await fetch('/api/blogPost');
-      const data = await allPosts.json();
-      setPosts(data);
+  const db = connection.db;
+
+  const results = await db.collection('blogPosts').find({}).toArray();
+
+  const a = JSON.stringify(results);
+
+  const allPosts = JSON.parse(a);
+
+  return {
+    props: {
+      allPosts: allPosts
     }
-    fetchPosts();
+  }
+}
 
-  }, [])
+export default function Home({allPosts}) {
+
+  const [posts, setPosts] = useState(allPosts);
+
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     const allPosts = await fetch('/api/blogPost');
+  //     const data = await allPosts.json();
+  //     setPosts(data);
+  //   }
+  //   fetchPosts();
+
+  // }, [])
 
   return (
     <>
