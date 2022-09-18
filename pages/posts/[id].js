@@ -63,7 +63,7 @@ const Post = ({ post }) => {
 
 	useEffect(() => {
 		const fetchVideo = async () => {
-			const v = await loom.oembed(data.videoURL);
+			const v = await loom.oembed(post.videoURL);
 			setLoomVideo(v);
 		}
 		fetchVideo();
