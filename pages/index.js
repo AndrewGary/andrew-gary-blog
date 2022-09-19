@@ -23,6 +23,21 @@ export const getStaticProps = async () => {
 
 export default function Home({allPosts}) {
 
+  useEffect(() => {
+
+    const effectFunction = async () => {
+
+      const requestOptions = {
+                method: 'GET', 
+            }
+      const data = await fetch('/api/blogPost', requestOptions)
+      const blah = await data.json();
+      setPosts(blah);
+    }
+
+    effectFunction();
+  },[])
+
   const [posts, setPosts] = useState(allPosts);
 
   // useEffect(() => {
