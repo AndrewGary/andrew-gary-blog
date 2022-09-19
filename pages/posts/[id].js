@@ -26,7 +26,7 @@ export const getStaticPaths = async () => {
 
 	return {
 		paths,
-		fallback: false,
+		fallback: true,
 	};
 };
 
@@ -53,14 +53,6 @@ const Post = ({ post }) => {
 
 	const [loomVideo, setLoomVideo] = useState({});
 
-	const {
-		postName,
-		postSubtitle,
-		postContent,
-		date,
-		time,
-	} = post;
-
 	useEffect(() => {
 		const fetchVideo = async () => {
 			const v = await loom.oembed(post.videoURL);
@@ -69,6 +61,13 @@ const Post = ({ post }) => {
 		fetchVideo();
 	}, [])
 
+	if(router.isFallback){
+		return(
+			<>
+			<h1>Loading</h1>
+			</>
+		)
+	}
 	return (
 		<div className="flex justify-center items-center w-full h-screen">
 			<div className="w-4/5 h-full flex flex-col">
@@ -76,9 +75,9 @@ const Post = ({ post }) => {
 					<div className="flex flex-col w-1/2 h-full items-center justify-center bg-carbon bg-opacity-25 rounded-lg border border-sky">
 						<div className="w-full h-1/2 flex flex-col items-center">
 							<h1 className="text-7xl my-3 border-b-2 border-watermellon">
-								{postName}
+								{post.postName}
 							</h1>
-							<h2 className="text-4xl my-3">{postSubtitle}</h2>
+							<h2 className="text-4xl my-3">{post.postSubtitle}</h2>
 							{session && (
 								<button
 									onClick={() => {
@@ -115,7 +114,7 @@ const Post = ({ post }) => {
 									</div>
 
 									<div className=" text-sm">
-										Created on {`${date} - ${time}`}
+										Created on {`${post.date} - ${post.time}`}
 									</div>
 								</div>
 							</div>
@@ -140,7 +139,7 @@ const Post = ({ post }) => {
 						<div name="spacer" className="w-1/12 inline-block" />
 						<div
 							className="w-full h-auto"
-							dangerouslySetInnerHTML={{ __html: postContent }}
+							dangerouslySetInnerHTML={{ __html: post.postContent }}
 						/>
 					</div>
 				</div>
