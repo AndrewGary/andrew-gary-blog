@@ -1,6 +1,7 @@
 import PostPreview from '../components/PostPreview';
 import { useState, useEffect } from 'react';
 import { connectToDatabase } from '../utils/mongoConnection';
+import FilterPosts from '../components/FilterPosts';
 
 export const getStaticProps = async () => {
 
@@ -39,25 +40,24 @@ export default function Home({allPosts}) {
   },[])
 
   const [posts, setPosts] = useState(allPosts);
-
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     const allPosts = await fetch('/api/blogPost');
-  //     const data = await allPosts.json();
-  //     setPosts(data);
-  //   }
-  //   fetchPosts();
-
-  // }, [])
+  const [filteredPosts, setFilteredPosts] = useState([]);
 
   return (
     <>
     {/* <button onClick={populatePosts}>populate</button> */}
+    <FilterPosts posts={posts} filteredPosts={filteredPosts} setFilteredPosts={setFilteredPosts}/>
+    
+    {filteredPosts.length ? <div className='flex flex-col min-h-screen'>
+      {filteredPosts.map((post, index) => {
+        return <PostPreview key={index} post={post} posts={posts} setPosts={setPosts}/>
+      })}
+    </div> : 
     <div className='flex flex-col min-h-screen'>
       {posts.map((post, index) => {
         return <PostPreview key={index} post={post} posts={posts} setPosts={setPosts}/>
       })}
     </div>
+}
     </>
   )
 }
