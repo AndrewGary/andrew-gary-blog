@@ -25,13 +25,6 @@ const AddLink = (props) => {
 	const handleYoutubeURLChange = e => {
 		setYoutubeURLState(e.target.value);
 	}
-	// const handleYoutubeURLChange = e => {
-	// 	setYoutubeURLState({
-	// 		[e.target.name]: e.target.value
-	// 	});
-	// }
-
-	
 
 	const handleFinishYoutubeURL = e => {
 		e.preventDefault();

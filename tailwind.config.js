@@ -11,7 +11,8 @@ module.exports = {
       'carbon': '#A9A9A9',
       'watermellon': '#FF3B3F',
       'neutral': '#EFEFEF',
-      'black': '#000000'
+      'black': '#000000',
+      'white': 'white'
     }
   },
   plugins: [],

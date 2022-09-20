@@ -6,6 +6,7 @@ import AddLink from "../components/AddLink";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from './api/auth/[...nextauth]';
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps(context){
 	return {
@@ -32,11 +33,12 @@ const initailVallues = {
 const CreatePost = () => {
 	const { data: session } = useSession();
 
-	console.log('SESSION: ', session);
+	const router = useRouter();
 	
 	const [formValues, setFormValues] = useState(initailVallues);
 	const [pageMessage, setPageMessage] = useState("");
-	const [insertActive, setInsertActive] = useState(false);
+	const [insertActive, setInsertActive] = useState({active: false, type: ''});
+	// const [insertActive, setInsertActive] = useState(false);
 	const text = useRef('');
 
 	const handleChange = (e) => {
@@ -82,9 +84,10 @@ const CreatePost = () => {
 			.then((resp) => {
 				if (resp.status === 201) {
 					setPageMessage("Post successfully uploaded");
-					setFormValues(initailVallues);
-					idk[0].textContent = "";
-					text.current = '';
+
+					setTimeout(() => {
+						router.push('/')
+					}, 1000)
 				}
 			})
 			.catch((error) => {
@@ -98,7 +101,11 @@ const CreatePost = () => {
 
 	const insertLink = e => {
 		e.preventDefault();
-		setInsertActive(!insertActive)
+		setInsertActive({
+			...insertActive,
+			active: !insertActive.active,
+			type: e.target.name
+		})
 	}
 	if(!session){
 		return (
@@ -113,9 +120,10 @@ const CreatePost = () => {
 	return (
 		<div className="flex justify-center items-center w-full h-screen">
 			<div className="flex flex-col border border-slate-300 rounded-md items-center w-4/5 h-full py-5 px-4">
-				<h1 className="flex justify-center border-b border-slate-300 w-5/6">
+				<h1 className="flex justify-center border-b border-slate-300 w-5/6 text-3xl">
 					New Post
 				</h1>
+				<div>{pageMessage}</div>
 				<form className=" w-1/2" onSubmit={handleSubmit}>
 
 					<div className="flex flex-col">
@@ -177,20 +185,21 @@ const CreatePost = () => {
 					<label htmlFor="postContent">Post</label>
 					<div>
 						Insert:
-						<button onClick={insertLink} className="border border-slate-300 hover:border-slate-500 rounded-md">Link</button>
+						<button name='link' onClick={insertLink} className="border border-slate-300 hover:border-slate-500 rounded-md">Link</button>
+						<button name='youtube' onClick={insertLink} className="border border-slate-300 hover:border-slate-500 rounded-md">Youtube</button>
 					</div>
 
-					{insertActive ? <AddLink text={text} insertActive={insertActive} setInsertActive={setInsertActive}/> : ''}
+					{insertActive.active ? <AddLink type={insertActive.type} text={text} insertActive={insertActive} setInsertActive={setInsertActive}/> : ''}
 
 					<ContentEditable
 						name='postContent'
-						className="border border-black"
+						className="border border-black bg-white"
 						html={text.current}
 						onChange={handleContentChange}
 					/>
-					<button type="submit">Submit</button>
-					<button className="border border-black rounded-md" onClick={(e) => {e.preventDefault()
-						text.current.reset()}}>Test</button>
+					<div className="flex justify-center">
+						<button className="border border-black mt-3 py-2 px-4 rounded-xl" type="submit">Submit</button>
+					</div>
 				</form>
 			</div>
 		</div>
