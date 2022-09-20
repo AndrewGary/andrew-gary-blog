@@ -55,7 +55,7 @@ export default function Home({allPosts}) {
     {/* <button onClick={populatePosts}>populate</button> */}
     <div className='flex flex-col min-h-screen'>
       {posts.map((post, index) => {
-        return <PostPreview key={index} post={post} />
+        return <PostPreview key={index} post={post} posts={posts} setPosts={setPosts}/>
       })}
     </div>
     </>
