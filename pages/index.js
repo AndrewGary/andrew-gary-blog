@@ -9,7 +9,7 @@ export const getStaticProps = async () => {
 
   const db = connection.db;
 
-  const results = await db.collection('blogPosts').find({}).toArray();
+  const results = await db.collection('blogPosts').find({}).sort({timeStamp: -1}).toArray();
 
   const a = JSON.stringify(results);
 

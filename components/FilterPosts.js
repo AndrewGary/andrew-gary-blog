@@ -13,7 +13,17 @@ const FilterPosts = (props) => {
             props.setFilteredPosts(filteredArray);
             console.log('filteredArray: ', filteredArray);
         }
-
+        if(e.target.value === 'newestFirst'){
+            props.setFilteredPosts([]);
+        }
+        if(e.target.value === 'oldestFirst'){
+            console.log('Yeahhhh')
+            const returnArray = [];
+            for(let i = props.posts.length - 1; i >= 0;i--){
+                returnArray.push({...props.posts[i]})
+            }
+            props.setFilteredPosts(returnArray);
+        }
 
     }
 
