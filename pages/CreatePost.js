@@ -76,7 +76,8 @@ const CreatePost = () => {
 				videoURL: formValues.videoUrl,
 				date: date.format(now, 'MM/DD/YYYY'),
 				time: date.format(now, 'HH:mm:ss:A'),
-				project: {...formValues.project}
+				project: {...formValues.project},
+				timeStamp: Date.now()
 			}),
 		};
 
