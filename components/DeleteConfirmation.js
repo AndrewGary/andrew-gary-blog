@@ -1,7 +1,9 @@
 import React from 'react'
 
-const DeleteConfirmation = ({deleteConfirmation, setDeleteConfirmation, id, posts, setPosts}) => {
+const DeleteConfirmation = ({deleteConfirmation, setDeleteConfirmation, id, posts, setPosts, filteredPosts, setFilteredPosts}) => {
   
+    console.log('filteredPosts: ', filteredPosts);
+
     const handleDelete = async e => {
         const options = {
             method: 'DELETE'
@@ -12,6 +14,10 @@ const DeleteConfirmation = ({deleteConfirmation, setDeleteConfirmation, id, post
         const newArray = posts.filter(p => p._id !== id);
 
         setPosts(newArray);
+        
+        const fa = filteredPosts.filter(fp => fp._id !== id);
+        // setFilteredPosts([]);
+        setFilteredPosts(fa);
 
         setDeleteConfirmation(!deleteConfirmation)
     }

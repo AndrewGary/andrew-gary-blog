@@ -49,12 +49,12 @@ export default function Home({allPosts}) {
     
     {filteredPosts.length ? <div className='flex flex-col min-h-screen'>
       {filteredPosts.map((post, index) => {
-        return <PostPreview key={index} post={post} posts={posts} setPosts={setPosts}/>
+        return <PostPreview filteredPosts={filteredPosts} setFilteredPosts={setFilteredPosts} key={index} post={post} posts={posts} setPosts={setPosts}/>
       })}
     </div> : 
     <div className='flex flex-col min-h-screen'>
       {posts.map((post, index) => {
-        return <PostPreview key={index} post={post} posts={posts} setPosts={setPosts}/>
+        return <PostPreview filteredPosts={filteredPosts} setFilteredPosts={setFilteredPosts} key={index} post={post} posts={posts} setPosts={setPosts}/>
       })}
     </div>
 }
