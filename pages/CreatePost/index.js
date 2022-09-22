@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import date from 'date-and-time';
-import { currentProjects } from "../utils/projects";
+import { currentProjects } from "../../utils/projects";
 import ContentEditable from "react-contenteditable";
-import AddLink from "../components/AddLink";
+import AddLink from "../../components/AddLink";
 import { unstable_getServerSession } from "next-auth";
-import { authOptions } from './api/auth/[...nextauth]';
+import { authOptions } from '../api/auth/[...nextauth]';
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
@@ -98,6 +98,31 @@ const CreatePost = () => {
 	const handleContentChange = e => {
 		text.current = e.target.value;
 	}
+
+    const handleSaveDraft = async e => {
+        e.preventDefault();
+
+        const now = new Date();
+
+        const requestOptions = {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				postName: formValues.postName,
+				postSubtitle: formValues.postSubtitle,
+				postPreviewDescription: formValues.postPreviewDescription,
+				postContent: text.current,
+				videoURL: formValues.videoUrl,
+				date: date.format(now, 'MM/DD/YYYY'),
+				time: date.format(now, 'HH:mm:ss:A'),
+				project: {...formValues.project}
+			}),
+		};
+
+        const resp = await fetch('/api/drafts', requestOptions)
+
+        console.log('resp: ', resp);
+    }
 
 	const insertLink = e => {
 		e.preventDefault();
@@ -199,6 +224,7 @@ const CreatePost = () => {
 					/>
 					<div className="flex justify-center">
 						<button className="border border-black mt-3 py-2 px-4 rounded-xl" type="submit">Submit</button>
+                        <button onClick={handleSaveDraft} className="border border-black mt-3 py-2 px-4 rounded-xl" type="submit">Save Draft</button>
 					</div>
 				</form>
 			</div>

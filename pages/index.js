@@ -40,19 +40,8 @@ export default function Home({allPosts}) {
 
   const [posts, setPosts] = useState(allPosts);
 
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     const allPosts = await fetch('/api/blogPost');
-  //     const data = await allPosts.json();
-  //     setPosts(data);
-  //   }
-  //   fetchPosts();
-
-  // }, [])
-
   return (
     <>
-    {/* <button onClick={populatePosts}>populate</button> */}
     <div className='flex flex-col min-h-screen'>
       {posts.map((post, index) => {
         return <PostPreview key={index} post={post} posts={posts} setPosts={setPosts}/>
