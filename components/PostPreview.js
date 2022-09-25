@@ -14,8 +14,6 @@ const PostPreview = ({ post, posts, setPosts , filteredPosts, setFilteredPosts})
     router.push(`/posts/${post._id}`);
   };
 
-  console.log("router: ", router);
-
   const handleDelete = async (e) => {
     setDeleteConfirmation(!deleteConfirmation);
   };
