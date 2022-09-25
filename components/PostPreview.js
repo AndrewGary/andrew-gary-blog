@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import DeleteConfirmation from "./DeleteConfirmation";
 
-const PostPreview = ({ post, posts, setPosts }) => {
+const PostPreview = ({ post, posts, setPosts , filteredPosts, setFilteredPosts}) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
 
   const router = useRouter();
@@ -58,6 +58,8 @@ const PostPreview = ({ post, posts, setPosts }) => {
               id={post._id}
               posts={posts}
               setPosts={setPosts}
+              filteredPosts={filteredPosts}
+              setFilteredPosts={setFilteredPosts}
             />
           )}
         </div>

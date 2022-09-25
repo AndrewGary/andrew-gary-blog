@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         case 'GET': {
 
             try{
-                const allPosts = await db.collection('blogPosts').find({}).toArray();
+                const allPosts = await db.collection('blogPosts').find({}).sort({timeStamp: -1}).toArray();
 
                 return res.status(200).json(allPosts);
             }catch(error){
