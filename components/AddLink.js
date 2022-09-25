@@ -2,7 +2,6 @@ import { useState } from "react";
 
 const AddLink = (props) => {
   const { type, text, insertActive, setInsertActive } = props;
-  console.log(type);
 
   const initalLinkState = {
     linkText: "",
@@ -30,7 +29,6 @@ const AddLink = (props) => {
       text.current +
       `<iframe width="560" height="315" src="${value}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
 
-    // console.log('text.current: ', text.current);
     setInsertActive({
       ...insertActive,
       active: !insertActive.active,

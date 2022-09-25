@@ -36,11 +36,10 @@ export const getStaticProps = async (context) => {
     const db = connection.db;
 	const id = context.params.id;
 	const res = await db.collection('blogPosts').findOne({ _id : ObjectId(context.params.id)})
-	// const res = await fetch(`/api/blogPost/${id}`);
+
 	const aa = JSON.stringify(res);
 
 	const data = JSON.parse(aa);
-	// const resp = await loom.oembed(data.videoURL);
 
 	return {
 		props: { post: data},

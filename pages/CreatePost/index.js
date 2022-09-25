@@ -38,11 +38,9 @@ const CreatePost = () => {
 	const [formValues, setFormValues] = useState(initailVallues);
 	const [pageMessage, setPageMessage] = useState("");
 	const [insertActive, setInsertActive] = useState({active: false, type: ''});
-	// const [insertActive, setInsertActive] = useState(false);
 	const text = useRef('');
 
 	const handleChange = (e) => {
-		console.log(e.target.name);
 
 		if(e.target.name === 'project'){
 
@@ -121,7 +119,7 @@ const CreatePost = () => {
 
         const resp = await fetch('/api/drafts', requestOptions)
 
-        console.log('resp: ', resp);
+		router.push('/AllDrafts')
     }
 
 	const insertLink = e => {

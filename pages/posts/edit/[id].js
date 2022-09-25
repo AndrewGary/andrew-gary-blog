@@ -32,18 +32,8 @@ const Component = ({ post }) => {
 	const [pageMessage, setPageMessage] = useState('');
     const [ formValues, setFormValues ] = useState(post);
 
-    const letSee = post.postContent;
-
-	useEffect(() => {
-		console.log(formValues);
-	}, [formValues])
-
     const handleSubmit = e => {
         e.preventDefault();
-	
-
-
-        const postChanges = document.getElementsByName('postContent');
 
         const upDatedPost = {
             ...formValues,
@@ -60,7 +50,6 @@ const Component = ({ post }) => {
           fetch(`/api/blogPost/${post._id}`, requestOptions)
 		  .then(resp => {
 			if(resp.status === 200){
-				console.log('resp: ', resp);
 				setPageMessage('Post Updated')
 
 				setTimeout(() => {

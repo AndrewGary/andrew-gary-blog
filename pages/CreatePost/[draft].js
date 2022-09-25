@@ -7,6 +7,43 @@ import { unstable_getServerSession } from "next-auth";
 import { authOptions } from '../api/auth/[...nextauth]';
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+// import { connectToDatabase } from "../../utils/mongoConnection";
+// import { ObjectId } from "mongodb";
+
+// export const getStaticPaths = async () => {
+// 	const connection = await connectToDatabase();
+
+// 	const db = connection.db;
+
+// 	const allDs = await db.collection('drafts').find({}).toArray();
+
+// 	const paths = allDs.map((check) => {
+// 		return {
+// 			params: { id: check._id.toString()}
+// 		}
+// 	})
+
+// 	return {
+// 		paths,
+// 		fallback: true
+// 	}
+// }
+
+// export const getStaticProps = async (context) => {
+// 	const connection = await connectToDatabase();
+
+// 	const db = connection.db;
+// 	const response = await db.collection('drafts').findOne({ _id: ObjectId(context.params.draft)})
+
+// 	const aa = JSON.stringify(response);
+// 	const data = JSON.parse(aa);
+
+// 	return {
+// 		props: {
+// 			draft: data
+// 		}
+// 	}
+// }
 
 export async function getServerSideProps(context){
 	return {
@@ -26,11 +63,31 @@ const initailVallues = {
 	postPreviewDescription: "",
 	postContent: "",
 	videoUrl: '',
-	postThumbnail: "",
-	project: null
+	project: {}
 };
 
-const CreatePost = () => {
+const CreatePost = ({draft}) => {
+
+	useEffect(() => {
+		const effectFunction = async () => {
+			try{
+			const resp = await fetch(`/api/drafts/${router.query.draft}`)
+			
+			const data = await resp.json();
+
+			delete data._id
+
+			setFormValues(data);
+			text.current = data.postContent
+			}catch(error){
+				
+			}
+		}
+		effectFunction();
+
+	}, [])
+
+
 	const { data: session } = useSession();
 
 	const router = useRouter();
@@ -38,11 +95,9 @@ const CreatePost = () => {
 	const [formValues, setFormValues] = useState(initailVallues);
 	const [pageMessage, setPageMessage] = useState("");
 	const [insertActive, setInsertActive] = useState({active: false, type: ''});
-	// const [insertActive, setInsertActive] = useState(false);
 	const text = useRef('');
 
 	const handleChange = (e) => {
-		console.log(e.target.name);
 
 		if(e.target.name === 'project'){
 
@@ -60,7 +115,7 @@ const CreatePost = () => {
 		}
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		
 		const now = new Date();
@@ -80,19 +135,33 @@ const CreatePost = () => {
 			}),
 		};
 
-		fetch("/api/blogPost", requestOptions)
-			.then((resp) => {
-				if (resp.status === 201) {
-					setPageMessage("Post successfully uploaded");
+		const resp = await fetch("/api/blogPost", requestOptions)
 
-					setTimeout(() => {
-						router.push('/')
-					}, 1000)
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		if(resp.status === 201){
+			setPageMessage('Post successfully uploaded');
+
+			const aa = await fetch(`/api/drafts/${router.query.draft}`, {method: 'DELETE'});
+			
+			setTimeout(() => {
+				router.push('/')
+			}, 1000)
+		}
+
+		// fetch("/api/blogPost", requestOptions)
+		// 	.then((resp) => {
+		// 		if (resp.status === 201) {
+		// 			setPageMessage("Post successfully uploaded");
+
+					
+
+		// 			setTimeout(() => {
+		// 				router.push('/')
+		// 			}, 1000)
+		// 		}
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log(error);
+		// 	});
 	};
 
 	const handleContentChange = e => {
@@ -107,6 +176,7 @@ const CreatePost = () => {
 			type: e.target.name
 		})
 	}
+
 	if(!session){
 		return (
 			<div className="w-full pt-32 flex items-center justify-center">
@@ -131,9 +201,12 @@ const CreatePost = () => {
 							Select which project this Post is about.
 						</label>
 						<select required id="project" name="project" className="text-gray-500 border border-gray-400 w-1/2" onChange={handleChange}>
-							<option value=''>--Select Poject--</option>
+							<option value='none' >--Select Poject--</option>
 							{currentProjects.map((project, index) => {
-							return <option key={index} value={index}>{project.name}</option>
+							if(formValues.project !== null && project.name && formValues.project.name === project.name){
+								return <option selected key={index} value={index}>{project.name}</option>
+							}
+								return <option key={index} value={index}>{project.name}</option>
 							})}
 						</select>
 					</div>
@@ -180,6 +253,7 @@ const CreatePost = () => {
 							name='videoUrl'
 							type='text'
 							onChange={handleChange}
+							value={formValues.videoUrl}
 						/>
 					</div>
 					<label htmlFor="postContent">Post</label>
