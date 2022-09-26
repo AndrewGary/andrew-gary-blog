@@ -115,6 +115,36 @@ const CreatePost = ({draft}) => {
 		}
 	};
 
+	const handleSaveDraft = async e => {
+		console.log('inside handleSaveDraft')
+		e.preventDefault();
+
+		const now = new Date();
+
+		const requestOptions = {
+			method: 'PUT',
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				postName: formValues.postName,
+				postSubtitle: formValues.postSubtitle,
+				postPreviewDescription: formValues.postPreviewDescription,
+				postContent: text.current,
+				videoURL: formValues.videoUrl,
+				date: date.format(now, 'MM/DD/YYYY'),
+				time: date.format(now, 'HH:mm:ss:A'),
+				project: {...formValues.project}
+			})
+		}
+
+		const yeah = await fetch(`/api/drafts/${router.query.draft}`, requestOptions);
+
+		const data = await yeah.json();
+
+		if(yeah.status === 200){
+			router.push('/AllDrafts')
+		}
+	}
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		
@@ -273,6 +303,7 @@ const CreatePost = ({draft}) => {
 					/>
 					<div className="flex justify-center">
 						<button className="border border-black mt-3 py-2 px-4 rounded-xl" type="submit">Submit</button>
+						<button onClick={handleSaveDraft} className="border border-black mt-3 py-2 px-4 rounded-xl" type="submit">Save Draft</button>
 					</div>
 				</form>
 			</div>

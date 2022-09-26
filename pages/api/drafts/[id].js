@@ -27,5 +27,18 @@ export default async function handler(req, res){
                 return res.status(500).json(error.message);
             }
         }
+
+        case 'PUT': {
+            try{
+                // console.log(req.query.id)
+                const returnValue = await db.collection('drafts').replaceOne({ _id: ObjectId(req.query.id)}, req.body);
+
+                console.log(returnValue);
+                return res.status(200).json(returnValue);
+
+            }catch(error){
+                return res.status(500).json(error);
+            }
+        }
     }
 }
