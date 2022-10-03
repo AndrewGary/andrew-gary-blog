@@ -33,8 +33,8 @@ const PostPreview = ({ post, posts, setPosts , filteredPosts, setFilteredPosts})
         duration: .6
       }}
 
-      //HEREERE Stop HERE
-     className="relative flex w-full bg-carbon bg-opacity-50 my-3 overflow-hidden">
+      //THIS IS WHERE TO STOP
+     className="relative flex w-full bg-carbon bg-opacity-50 my-3 sm:my-1 overflow-hidden">
       
       <div className="flex flex-col w-full py-4 items-center">
         <div className="flex flex-col justify-center items-center h-2/5">
@@ -56,7 +56,7 @@ const PostPreview = ({ post, posts, setPosts , filteredPosts, setFilteredPosts})
         <div className="w-full flex flex-col justify-center items-center">
           <button
             onClick={handleclick}
-            className="w-1/6 flex justify-center items-center border-2 border-carbon font-bold hover:bg-carbon hover:border-2 hover:border-watermellon rounded-xl bg-watermellon transition-all duration-300"
+            className="sm:w-3/5 w-1/6 flex justify-center items-center border-2 border-carbon font-bold hover:bg-carbon hover:border-2 hover:border-watermellon rounded-xl bg-watermellon transition-all duration-300"
           >
             View Post
           </button>

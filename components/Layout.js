@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 
 const Layout = ({ children }) => {
   return (
-    <div className='bg-neutral p-3'>
+    <div className='bg-neutral p-3 sm:p-0'>
         <Head>
           <title>Andrew Gary - Dev Blog</title>
         </Head>
