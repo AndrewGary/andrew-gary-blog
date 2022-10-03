@@ -12,6 +12,7 @@
     "@loomhq/loom-embed": "^1.5.0",
     "axios": "^0.27.2",
     "date-and-time": "^2.4.1",
+    "framer-motion": "^7.5.1",
     "mongodb": "^4.9.0",
     "next": "12.2.5",
     "next-auth": "^4.10.3",

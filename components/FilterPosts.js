@@ -1,5 +1,6 @@
 import React from 'react'
 import { currentProjects } from '../utils/projects';
+import { motion } from 'framer-motion';
 
 const FilterPosts = (props) => {
 
@@ -29,16 +30,16 @@ const FilterPosts = (props) => {
 
   return (
     <div className='w-full flex justify-center'>
-        <select className='border border-black' onChange={handleChange}>
-            <option value=''>-- Filter By --</option>
+        <select className='cursor-pointer border border-black bg-watermellon bg-opacity-40 active:bg-carbon' onChange={handleChange}>
+            <option className='bg-carbon' value=''>-- Filter By --</option>
             <optgroup label='Project'>
                 {currentProjects.map((project, index) => {
-                    return <option key={index} value={project.name}>{project.name}</option>
+                    return <option className='bg-carbon' key={index} value={project.name}>{project.name}</option>
                 })}
             </optgroup>
             <optgroup label='Upload Date'>
-                <option value='oldestFirst'>{'Old -> New'}</option>
-                <option value='newestFirst'>{'New -> Old'}</option>
+                <option className='bg-carbon' value='oldestFirst'>{'Old -> New'}</option>
+                <option className='bg-carbon' value='newestFirst'>{'New -> Old'}</option>
             </optgroup>
         </select>
     </div>

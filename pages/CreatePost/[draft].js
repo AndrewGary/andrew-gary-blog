@@ -7,43 +7,6 @@ import { unstable_getServerSession } from "next-auth";
 import { authOptions } from '../api/auth/[...nextauth]';
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-// import { connectToDatabase } from "../../utils/mongoConnection";
-// import { ObjectId } from "mongodb";
-
-// export const getStaticPaths = async () => {
-// 	const connection = await connectToDatabase();
-
-// 	const db = connection.db;
-
-// 	const allDs = await db.collection('drafts').find({}).toArray();
-
-// 	const paths = allDs.map((check) => {
-// 		return {
-// 			params: { id: check._id.toString()}
-// 		}
-// 	})
-
-// 	return {
-// 		paths,
-// 		fallback: true
-// 	}
-// }
-
-// export const getStaticProps = async (context) => {
-// 	const connection = await connectToDatabase();
-
-// 	const db = connection.db;
-// 	const response = await db.collection('drafts').findOne({ _id: ObjectId(context.params.draft)})
-
-// 	const aa = JSON.stringify(response);
-// 	const data = JSON.parse(aa);
-
-// 	return {
-// 		props: {
-// 			draft: data
-// 		}
-// 	}
-// }
 
 export async function getServerSideProps(context){
 	return {
