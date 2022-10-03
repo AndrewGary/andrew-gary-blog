@@ -11,7 +11,7 @@ export const currentProjects = [
 	},
 	{
 		name: 'Andrew Gary Dev Blog',
-		github: 'https://github.com/AndrewGary/andrew-gary-blog',
-		deployedLink: 'NOT CURRENTLY DEPLOYED'
+		gitHub: 'https://github.com/AndrewGary/andrew-gary-blog',
+		deployedLink: 'https://andrew-gary-blog.vercel.app'
 	}
 ]
