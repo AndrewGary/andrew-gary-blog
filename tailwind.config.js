@@ -15,10 +15,10 @@ module.exports = {
       'white': 'white'
     },
     screens: {
-      'xl': {'max': '1279px'},
+      'xl': {'max': '1532px'},
       // => @media (max-width: 1279px) { ... }
 
-      'lg': {'max': '1023px'},
+      'lg': {'max': '1040px'},
       // => @media (max-width: 1023px) { ... }
 
       'md': {'max': '767px'},
@@ -26,6 +26,7 @@ module.exports = {
 
       'sm': {'max': '639px'},
       // => @media (max-width: 639px) { ... }
+      'custom830': {'max': '830px'},
     }
   },
   plugins: [],
